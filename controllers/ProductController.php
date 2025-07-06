@@ -63,6 +63,35 @@ class ProductController
     {
         return $this->productModel->deleteProduct($id);
     }
+
+    public function getStatistics()
+{
+    $products = $this->productModel->getAllProducts();
+
+    $total = count($products);
+    $inStock = 0;
+    $lowStock = 0;
+    $totalValue = 0;
+
+    foreach ($products as $p) {
+        if ((int)$p['stock'] > 0) {
+            $inStock++;
+        }
+        if (isset($p['desired_stock']) && is_numeric($p['desired_stock']) && (int)$p['stock'] < (int)$p['desired_stock']) {
+            $lowStock++;
+        }
+        $totalValue += ((float)$p['stock']) * ((float)$p['price']);
+    }
+
+    return [
+        'total' => $total,
+        'inStock' => $inStock,
+        'lowStock' => $lowStock,
+        'totalValue' => number_format($totalValue, 2)
+    ];
+}
+
+
 }
 
 

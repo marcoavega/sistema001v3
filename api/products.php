@@ -295,6 +295,12 @@ case 'delete':
     }
     break;
 
+
+case 'stats':
+    echo json_encode($productController->getStatistics());
+    break;
+    
+
     default:
         http_response_code(400);
         echo json_encode(['success'=>false,'message'=>'Acción no definida']);
