@@ -554,10 +554,6 @@ include __DIR__ . '/../partials/layouts/navbar.php';
 <script src="<?php echo BASE_URL; ?>assets/js/ajax/products-table.js"></script>
 
 <script>
- 
-
-
-
   document.addEventListener('DOMContentLoaded', function () {
     fetch(`${BASE_URL}api/products.php?action=stats`)
       .then(res => res.json())
