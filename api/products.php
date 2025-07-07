@@ -297,8 +297,38 @@ case 'delete':
 
 
 case 'stats':
-    echo json_encode($productController->getStatistics());
+    $products = $productController->getAllProducts();
+
+    $total = count($products);
+    $inStock = 0;
+    $lowStock = 0;
+    $totalValue = 0;
+
+    foreach ($products as $product) {
+        $stock = (int)$product['stock'];
+        $desired = (int)$product['desired_stock'];
+        $price = (float)$product['price'];
+
+        if ($stock > 0) {
+            $inStock++;
+        }
+
+        if ($desired > 0 && $stock < $desired) {
+            $lowStock++;
+        }
+
+        $totalValue += $stock * $price;
+    }
+
+    echo json_encode([
+        'success' => true,
+        'total' => $total,
+        'inStock' => $inStock,
+        'lowStock' => $lowStock,
+        'totalValue' => number_format($totalValue, 2)
+    ]);
     break;
+
     
 
     default:

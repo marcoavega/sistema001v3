@@ -130,165 +130,48 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_products.php';
         <div class="container-fluid px-4 py-4">
 
           <!-- Panel de estadísticas rápidas -->
-          <div class="row g-3 mb-4">
-            <div class="col-md-3">
-              <div class="card bg-primary bg-opacity-10 border-0 h-100">
-                <div class="card-body text-center">
-                  <i class="bi bi-boxes text-primary fs-2 mb-3"></i>
-                  <h6 class="text-primary mb-1">Total Productos</h6>
-                  <h4 class="fw-bold mb-0" id="totalProducts">-</h4>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card bg-success bg-opacity-10 border-0 h-100">
-                <div class="card-body text-center">
-                  <i class="bi bi-check-circle text-success fs-2 mb-3"></i>
-                  <h6 class="text-success mb-1">En Stock</h6>
-                  <h4 class="fw-bold mb-0" id="inStock">-</h4>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card bg-warning bg-opacity-10 border-0 h-100">
-                <div class="card-body text-center">
-                  <i class="bi bi-exclamation-triangle text-warning fs-2 mb-3"></i>
-                  <h6 class="text-warning mb-1">Stock Bajo</h6>
-                  <h4 class="fw-bold mb-0" id="lowStock">-</h4>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card bg-info bg-opacity-10 border-0 h-100">
-                <div class="card-body text-center">
-                  <i class="bi bi-currency-dollar text-info fs-2 mb-3"></i>
-                  <h6 class="text-info mb-1">Valor Total</h6>
-                  <h4 class="fw-bold mb-0" id="totalValue">-</h4>
-                </div>
-              </div>
-            </div>
-          </div>
+         <!-- Panel de estadísticas rápidas -->
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="card bg-primary bg-opacity-10 border-0 h-100">
+      <div class="card-body text-center">
+        <i class="bi bi-boxes text-primary fs-2 mb-3"></i>
+        <h6 class="text-primary mb-1">Total Productos</h6>
+        <h4 class="fw-bold mb-0" id="totalProducts">-</h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card bg-success bg-opacity-10 border-0 h-100">
+      <div class="card-body text-center">
+        <i class="bi bi-check-circle text-success fs-2 mb-3"></i>
+        <h6 class="text-success mb-1">En Stock</h6>
+        <h4 class="fw-bold mb-0" id="inStock">-</h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card bg-warning bg-opacity-10 border-0 h-100">
+      <div class="card-body text-center">
+        <i class="bi bi-exclamation-triangle text-warning fs-2 mb-3"></i>
+        <h6 class="text-warning mb-1">Stock Bajo</h6>
+        <h4 class="fw-bold mb-0" id="lowStock">-</h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card bg-info bg-opacity-10 border-0 h-100">
+      <div class="card-body text-center">
+        <i class="bi bi-currency-dollar text-info fs-2 mb-3"></i>
+        <h6 class="text-info mb-1">Valor Total</h6>
+        <h4 class="fw-bold mb-0" id="totalValue">-</h4>
+      </div>
+    </div>
+  </div>
+</div>
 
-          <!-- Panel de control principal -->
-          <div class="card shadow-lg border-0 rounded-4">
-            <div class="card-header p-4">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <h3 class="mb-1 fw-bold">Listado de Productos</h3>
-                  <p class="mb-0 opacity-75">Gestiona tu inventario completo desde aquí</p>
-                </div>
-                <div>
-                  <button id="addProductBtn" class="btn btn-info btn-lg px-4" data-bs-toggle="modal" data-bs-target="#addProductModal">
-                    <i class="bi bi-plus-circle me-2"></i>Nuevo Producto
-                  </button>
-                </div>
-              </div>
-            </div>
 
-            <div class="card-body p-4">
-
-              <!-- Barra de herramientas -->
-              <div class="row g-3 mb-4">
-                <div class="col-md-6">
-                  <div class="position-relative">
-                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
-                    <input type="text" id="table-search" class="form-control form-control-lg ps-5 rounded-pill border-2"
-                      placeholder="Buscar productos por código, nombre o categoría...">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="d-flex gap-2 justify-content-md-end">
-                    <div class="dropdown">
-                      <button class="btn btn-outline-primary dropdown-toggle rounded-pill px-4" type="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-download me-2"></i>Exportar
-                      </button>
-                      <ul class="dropdown-menu shadow-lg border-0 rounded-3">
-                        <li>
-                          <h6 class="dropdown-header fw-bold">Formatos disponibles</h6>
-                        </li>
-                        <li>
-                          <button id="exportCSVBtn" class="dropdown-item d-flex align-items-center">
-                            <i class="bi bi-filetype-csv text-success me-2"></i>Exportar a CSV
-                          </button>
-                        </li>
-                        <li>
-                          <button id="exportExcelBtn" class="dropdown-item d-flex align-items-center">
-                            <i class="bi bi-file-earmark-excel text-success me-2"></i>Exportar a Excel
-                          </button>
-                        </li>
-                        <li>
-                          <button id="exportPDFBtn" class="dropdown-item d-flex align-items-center">
-                            <i class="bi bi-file-earmark-pdf text-danger me-2"></i>Exportar a PDF
-                          </button>
-                        </li>
-                        <li>
-                          <button id="exportJSONBtn" class="dropdown-item d-flex align-items-center">
-                            <i class="bi bi-filetype-json text-info me-2"></i>Exportar a JSON
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <button class="btn btn-outline-secondary rounded-pill px-4" id="refreshTable">
-                      <i class="bi bi-arrow-clockwise me-2"></i>Actualizar
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Filtros avanzados (colapsable) -->
-              <div class="mb-4">
-                <button class="btn btn-link text-decoration-none p-0 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#advancedFilters">
-                  <i class="bi bi-funnel me-2"></i>Filtros Avanzados
-                  <i class="bi bi-chevron-down ms-1"></i>
-                </button>
-                <div class="collapse mt-3" id="advancedFilters">
-                  <div class="card bg-body-secondary border-0">
-                    <div class="card-body">
-                      <div class="row g-3">
-                        <div class="col-md-3">
-                          <label class="form-label fw-semibold">Estado</label>
-                          <select class="form-select" id="statusFilter">
-                            <option value="">Todos</option>
-                            <option value="1">Activos</option>
-                            <option value="0">Inactivos</option>
-                          </select>
-                        </div>
-                        <div class="col-md-3">
-                          <label class="form-label fw-semibold">Stock</label>
-                          <select class="form-select" id="stockFilter">
-                            <option value="">Todos</option>
-                            <option value="low">Stock Bajo</option>
-                            <option value="normal">Stock Normal</option>
-                            <option value="high">Stock Alto</option>
-                          </select>
-                        </div>
-                        <div class="col-md-3">
-                          <label class="form-label fw-semibold">Precio Desde</label>
-                          <input type="number" class="form-control" id="priceFromFilter" placeholder="0.00" step="0.01">
-                        </div>
-                        <div class="col-md-3">
-                          <label class="form-label fw-semibold">Precio Hasta</label>
-                          <input type="number" class="form-control" id="priceToFilter" placeholder="999.99" step="0.01">
-                        </div>
-                      </div>
-                      <div class="mt-3 d-flex gap-2">
-                        <button class="btn btn-primary" id="applyFilters">
-                          <i class="bi bi-check2 me-2"></i>Aplicar Filtros
-                        </button>
-                        <button class="btn btn-outline-secondary" id="clearFilters">
-                          <i class="bi bi-x-circle me-2"></i>Limpiar
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Contenedor de la tabla -->
-              <div class="table-responsive">
-                <div id="products-table" class="border rounded-3"></div>
-              </div>
+         
 
               
 
@@ -296,12 +179,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_products.php';
           </div>
         </div>
 
-        <!-- Incluir modales -->
-        <?php
-        include __DIR__ . '/../partials/modals/modal_add_product.php';
-        include __DIR__ . '/../partials/modals/modal_edit_product.php';
-        include __DIR__ . '/../partials/modals/modal_delete_product.php';
-        ?>
+        
       <?php endif; ?>
     </main>
   </div>
@@ -322,25 +200,6 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_products.php';
 
   .card:hover {
     transform: translateY(-2px);
-  }
-
-  /* Estilos para tabla Tabulator */
-  .tabulator {
-    border: none !important;
-    background: transparent !important;
-  }
-
-  .tabulator-header {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
-    border: none !important;
-  }
-
-  .tabulator-row:hover {
-    background-color: rgba(13, 110, 253, 0.1) !important;
-  }
-
-  .tabulator-selected {
-    background-color: rgba(13, 110, 253, 0.2) !important;
   }
 
 
@@ -394,139 +253,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_products.php';
 
 
 
-/* Estilos modernos para Tabulator - Responsive */
 
-/* Contenedor principal de la tabla */
-#products-table {
-  border-radius: 12px !important;
-  overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
-}
-
-/* Header de la tabla */
-.tabulator .tabulator-header {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-bottom: 2px solid #dee2e6;
-  font-weight: 600;
-}
-
-.tabulator .tabulator-header .tabulator-col {
-  border-right: 1px solid #dee2e6;
-  padding: 12px 8px;
-}
-
-.tabulator .tabulator-header .tabulator-col-title {
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-/* Filas de la tabla */
-.tabulator .tabulator-tableHolder .tabulator-table .tabulator-row {
-  border-bottom: 1px solid #f1f3f4;
-  transition: all 0.2s ease;
-}
-
-.tabulator .tabulator-tableHolder .tabulator-table .tabulator-row:hover {
-   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.tabulator .tabulator-tableHolder .tabulator-table .tabulator-row .tabulator-cell {
-  padding: 12px 8px;
-  border-right: 1px solid #f1f3f4;
-  vertical-align: middle;
-}
-
-/* Botones de acción mejorados */
-.btn-group-sm .btn {
-  padding: 0.375rem 0.75rem;
-  font-size: 0.875rem;
-  border-radius: 6px;
-  margin: 0 2px;
-  transition: all 0.2s ease;
-}
-
-.btn-outline-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(13, 110, 253, 0.25);
-}
-
-.btn-outline-danger:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.25);
-}
-
-/* Paginación moderna */
-.tabulator .tabulator-footer {
-  border-top: 2px solid #dee2e6;
-  padding: 15px;
-}
-
-.tabulator .tabulator-footer .tabulator-paginator {
-  font-weight: 500;
-}
-
-.tabulator .tabulator-footer .tabulator-pages {
-  margin: 0 15px;
-}
-
-.tabulator .tabulator-footer .tabulator-page {
-  border: 1px solid #dee2e6;
-  margin: 0 2px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  font-weight: 500;
-}
-
-.tabulator .tabulator-footer .tabulator-page:hover {
-  transform: translateY(-1px);
-}
-color
-.tabulator .tabulator-footer .tabulator-page.active {
-  background: #007bff;
-  border-color: #007bff;
-}
-
-/* Selector de tamaño de página */
-.tabulator .tabulator-footer .tabulator-page-size {
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-weight: 500;
-  
-}
-
-/* Loading placeholder mejorado */
-.tabulator .tabulator-placeholder {
-  font-weight: 500;
-  font-size: 1rem;
-  padding: 40px;
-}
-
-/* Responsive collapse mejorado */
-.tabulator .tabulator-responsive-collapse {
-  
-  border-top: 1px solid #dee2e6;
-  padding: 10px 15px;
-}
-
-.tabulator .tabulator-responsive-collapse-toggle {
-  background: #007bff;
- 
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  border: none;
-  font-size: 12px;
-  transition: all 0.2s ease;
-}
-
-.tabulator .tabulator-responsive-collapse-toggle:hover {
-  background: #0056b3;
-  transform: scale(1.1);
-}
 
 /* Badges y elementos mejorados */
 .badge {
@@ -554,17 +281,21 @@ include __DIR__ . '/../partials/layouts/navbar.php';
 <script src="<?php echo BASE_URL; ?>assets/js/ajax/products-table.js"></script>
 
 <script>
-  // Script para actualizar estadísticas (opcional)
-  document.addEventListener('DOMContentLoaded', function() {
-    // Aquí puedes añadir código para cargar las estadísticas
-    // Por ejemplo, una llamada AJAX para obtener los totales
-
-    // Simulación de carga de estadísticas
-    setTimeout(() => {
-      document.getElementById('totalProducts').textContent = '0';
-      document.getElementById('inStock').textContent = '0';
-      document.getElementById('lowStock').textContent = '0';
-      document.getElementById('totalValue').textContent = '$0.00';
-    }, 500);
+  document.addEventListener('DOMContentLoaded', function () {
+    fetch("<?php echo BASE_URL; ?>api/products.php?action=stats")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById('totalProducts').textContent = data.total;
+          document.getElementById('inStock').textContent = data.inStock;
+          document.getElementById('lowStock').textContent = data.lowStock;
+          document.getElementById('totalValue').textContent = `$${data.totalValue}`;
+        } else {
+          console.error("Error al obtener estadísticas");
+        }
+      })
+      .catch(err => {
+        console.error("Error de red o servidor:", err);
+      });
   });
 </script>
