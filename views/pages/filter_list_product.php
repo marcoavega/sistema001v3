@@ -128,45 +128,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_products.php';
 
         <div class="container-fluid px-4 py-4">
 
-          <!-- Panel de estadísticas rápidas -->
-          <div class="row g-3 mb-4">
-            <div class="col-md-3">
-              <div class="card bg-primary bg-opacity-10 border-0 h-100">
-                <div class="card-body text-center">
-                  <i class="bi bi-boxes text-primary fs-2 mb-3"></i>
-                  <h6 class="text-primary mb-1">Total Productos</h6>
-                  <h4 class="fw-bold mb-0" id="totalProducts">-</h4>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card bg-success bg-opacity-10 border-0 h-100">
-                <div class="card-body text-center">
-                  <i class="bi bi-check-circle text-success fs-2 mb-3"></i>
-                  <h6 class="text-success mb-1">En Stock</h6>
-                  <h4 class="fw-bold mb-0" id="inStock">-</h4>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card bg-warning bg-opacity-10 border-0 h-100">
-                <div class="card-body text-center">
-                  <i class="bi bi-exclamation-triangle text-warning fs-2 mb-3"></i>
-                  <h6 class="text-warning mb-1">Stock Bajo</h6>
-                  <h4 class="fw-bold mb-0" id="lowStock">-</h4>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card bg-info bg-opacity-10 border-0 h-100">
-                <div class="card-body text-center">
-                  <i class="bi bi-currency-dollar text-info fs-2 mb-3"></i>
-                  <h6 class="text-info mb-1">Valor Total</h6>
-                  <h4 class="fw-bold mb-0" id="totalValue">-</h4>
-                </div>
-              </div>
-            </div>
-          </div>
+          
 
           <!-- Panel de control principal -->
           <div class="card shadow-lg border-0 rounded-4">
@@ -551,19 +513,5 @@ include __DIR__ . '/../partials/layouts/navbar.php';
 
 <!-- Script JS -->
 <script src="<?php echo BASE_URL; ?>assets/js/ajax/products-table.js"></script>
+<script src="<?php echo BASE_URL; ?>assets/js/ajax/products-table.js"></script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    fetch(`${BASE_URL}api/products.php?action=stats`)
-      .then(res => res.json())
-      .then(stats => {
-        document.getElementById('totalProducts').textContent = stats.total;
-        document.getElementById('inStock').textContent = stats.inStock;
-        document.getElementById('lowStock').textContent = stats.lowStock;
-        document.getElementById('totalValue').textContent = `$${stats.totalValue}`;
-      })
-      .catch(err => {
-        console.error('Error al cargar estadísticas:', err);
-      });
-  });
-</script>

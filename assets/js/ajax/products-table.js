@@ -20,201 +20,221 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Evitar warnings aria-hidden al cerrar modal
-  document.querySelectorAll('[data-bs-dismiss="modal"]').forEach(btn => {
-    btn.addEventListener('click', () => btn.blur());
+  document.querySelectorAll('[data-bs-dismiss="modal"]').forEach((btn) => {
+    btn.addEventListener("click", () => btn.blur());
   });
-  ["addProductModal", "editProductModal", "deleteProductModal"].forEach(modalId => {
-    const modalEl = document.getElementById(modalId);
-    if (modalEl) {
-      modalEl.addEventListener('hide.bs.modal', function () {
-        const active = document.activeElement;
-        if (active && modalEl.contains(active)) {
-          active.blur();
-        }
-      });
+  ["addProductModal", "editProductModal", "deleteProductModal"].forEach(
+    (modalId) => {
+      const modalEl = document.getElementById(modalId);
+      if (modalEl) {
+        modalEl.addEventListener("hide.bs.modal", function () {
+          const active = document.activeElement;
+          if (active && modalEl.contains(active)) {
+            active.blur();
+          }
+        });
+      }
     }
-  });
+  );
 
   // Contenedor de la tabla
- var productsTableElement = document.getElementById("products-table");
-if (!productsTableElement) return;
+  var productsTableElement = document.getElementById("products-table");
+  if (!productsTableElement) return;
 
-var deleteProductID = null;
+  var deleteProductID = null;
 
-console.log("Inicializando Tabulator con paginación remota...");
-var table = new Tabulator("#products-table", {
-  layout: "fitColumns", // CAMBIADO: de fitDataFill a fitColumns para evitar columna vacía
-  placeholder: "Cargando productos...",
-  
-  // Configuración moderna de paginación
-  pagination: "remote",
-  paginationSize: 20,
-  paginationSizeSelector: [10, 20, 30, 50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, 10000],
-  paginationButtonCount: 7,
-  
-  // Configuración AJAX
-  ajaxURL: BASE_URL + "api/products.php?action=list",
-  ajaxConfig: "GET",
-  ajaxParams: {},
-  paginationDataSent: {
-    "page": "page",
-    "size": "size",
-  },
-  
-  // Indicador de carga moderno
-  ajaxRequesting: function (url, params) {
-    console.log("Tabulator request:", url, params);
-    document.querySelector("#products-table").style.opacity = "0.7";
-  },
-  
-  ajaxResponse: function (url, params, response) {
-    document.querySelector("#products-table").style.opacity = "1";
-    
-    if (response && Array.isArray(response.data)) {
-      return response.data;
-    } else {
-      console.warn("Respuesta inesperada para ajaxResponse:", response);
-      return [];
-    }
-  },
-  
-  paginationDataReceived: {
-    "last_page": "last_page",
-    "data": "data"
-  },
-  
-  // Configuración de columnas - TODAS VISIBLES CON ESPACIOS OPTIMIZADOS
-  columns: [
-    { 
-      title: "ID", 
-      field: "product_id", 
-      width: 90, // AMPLIADO
-      minWidth: 70,
-      sorter: "number", 
-      hozAlign: "center"
+  console.log("Inicializando Tabulator con paginación remota...");
+  var table = new Tabulator("#products-table", {
+    layout: "fitColumns", // CAMBIADO: de fitDataFill a fitColumns para evitar columna vacía
+    placeholder: "Cargando productos...",
+
+    // Configuración moderna de paginación
+    pagination: "remote",
+    paginationSize: 20,
+    paginationSizeSelector: [
+      10, 20, 30, 50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, 10000,
+    ],
+    paginationButtonCount: 7,
+
+    // Configuración AJAX
+    ajaxURL: BASE_URL + "api/products.php?action=list",
+    ajaxConfig: "GET",
+    ajaxParams: {},
+    paginationDataSent: {
+      page: "page",
+      size: "size",
     },
-    { 
-      title: "Código", 
-      field: "product_code",
-      width: 120, // AMPLIADO
-      minWidth: 120
+
+    // Indicador de carga moderno
+    ajaxRequesting: function (url, params) {
+      console.log("Tabulator request:", url, params);
+      document.querySelector("#products-table").style.opacity = "0.7";
     },
-    { 
-      title: "Código Barras", 
-      field: "barcode",
-      width: 160, // AMPLIADO
-      minWidth: 140
-    },
-    {
-      title: "Name",
-      field: "product_name",
-      width: 280, // AMPLIADO CONSIDERABLEMENTE
-      minWidth: 200,
-      formatter: function (cell) {
-        const data = cell.getData();
-        const productId = data.product_id;
-        const name = cell.getValue();
-        const link = BASE_URL + "product_detail?id=" + encodeURIComponent(productId);
-        return `<a href="${link}" class="text-decoration-none fw-semibold">${name}</a>`;
+
+    ajaxResponse: function (url, params, response) {
+      document.querySelector("#products-table").style.opacity = "1";
+
+      if (response && Array.isArray(response.data)) {
+        return response.data;
+      } else {
+        console.warn("Respuesta inesperada para ajaxResponse:", response);
+        return [];
       }
     },
-    { 
-      title: "Ubicación", 
-      field: "location",
-      width: 160, // AMPLIADO
-      minWidth: 120,
-      headerSort: true,
-      formatter: function(cell) {
-        const value = cell.getValue();
-        if (!value) return '<span class="text-muted">Sin ubicación</span>';
-        return `<span class="badge bg-light text-dark border">${value}</span>`;
-      }
+
+    paginationDataReceived: {
+      last_page: "last_page",
+      data: "data",
     },
-    {
-      title: "Precio",
-      field: "price",
-      width: 130, // AMPLIADO
-      minWidth: 110,
-      hozAlign: "right",
-      headerSort: true,
-      formatter: function(cell) {
-        const value = cell.getValue();
-        if (value == null || value === '') return '<span class="text-muted">N/A</span>';
-        return `<span class="fw-bold">${parseFloat(value).toLocaleString('es-MX', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>`;
-      }
-    },
-    { 
-      title: "Stock", 
-      field: "stock",
-      width: 100, // AMPLIADO
-      minWidth: 80,
-      sorter: "number", 
-      hozAlign: "center",
-      headerSort: true,
-      formatter: function(cell) {
-        const value = cell.getValue();
-        const numValue = parseInt(value);
-        let badgeClass = "bg-success";
-        if (numValue === 0) badgeClass = "bg-danger";
-        else if (numValue < 10) badgeClass = "bg-warning text-dark";
-        else if (numValue < 50) badgeClass = "bg-info";
-        
-        return `<span class="badge ${badgeClass}">${numValue}</span>`;
-      }
-    },
-    {
-      title: "Fecha",
-      field: "registration_date",
-      width: 140, // AMPLIADO
-      minWidth: 120,
-      headerSort: true,
-      formatter: function (cell) {
-        var value = cell.getValue();
-        if (!value) return '<span class="text-muted">N/A</span>';
-        var date = new Date(value);
-        if (isNaN(date.getTime())) return '<span class="text-muted">Fecha inválida</span>';
-        
-        var day = String(date.getDate()).padStart(2, "0");
-        var month = String(date.getMonth() + 1).padStart(2, "0");
-        var year = date.getFullYear();
-        return `<small class="text-muted">${day}/${month}/${year}</small>`;
+
+    // Configuración de columnas - TODAS VISIBLES CON ESPACIOS OPTIMIZADOS
+    columns: [
+      {
+        title: "ID",
+        field: "product_id",
+        width: 90, // AMPLIADO
+        minWidth: 70,
+        sorter: "number",
+        hozAlign: "center",
       },
-      cssClass: "small"
-    },
-    {
-      title: "Imagen",
-      field: "image_url",
-      width: 110, // AMPLIADO
-      minWidth: 90,
-      formatter: function (cell) {
-        var row = cell.getData();
-        if (!row.image_url) {
-          return '<div class="d-flex justify-content-center"><i class="fas fa-image text-muted" style="font-size: 24px;"></i></div>';
-        }
-        var version = row.image_version || Date.now();
-        var src = BASE_URL + row.image_url + "?v=" + version;
-        return `<div class="d-flex justify-content-center">
+      {
+        title: "Código",
+        field: "product_code",
+        width: 120, // AMPLIADO
+        minWidth: 120,
+      },
+      {
+        title: "Código Barras",
+        field: "barcode",
+        width: 160, // AMPLIADO
+        minWidth: 140,
+      },
+      {
+        title: "Name",
+        field: "product_name",
+        width: 280, // AMPLIADO CONSIDERABLEMENTE
+        minWidth: 200,
+        formatter: function (cell) {
+          const data = cell.getData();
+          const productId = data.product_id;
+          const name = cell.getValue();
+          const link =
+            BASE_URL + "product_detail?id=" + encodeURIComponent(productId);
+          return `<a href="${link}" class="text-decoration-none fw-semibold">${name}</a>`;
+        },
+      },
+      {
+        title: "Ubicación",
+        field: "location",
+        width: 160, // AMPLIADO
+        minWidth: 120,
+        headerSort: true,
+        formatter: function (cell) {
+          const value = cell.getValue();
+          if (!value) return '<span class="text-muted">Sin ubicación</span>';
+          return `<span class="badge bg-light text-dark border">${value}</span>`;
+        },
+      },
+      {
+        title: "Precio",
+        field: "price",
+        width: 130, // AMPLIADO
+        minWidth: 110,
+        hozAlign: "right",
+        headerSort: true,
+        formatter: function (cell) {
+          const value = cell.getValue();
+          if (value == null || value === "")
+            return '<span class="text-muted">N/A</span>';
+          return `<span class="fw-bold">${parseFloat(value).toLocaleString(
+            "es-MX",
+            { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+          )}</span>`;
+        },
+      },
+      {
+  title: "Stock",
+  field: "stock",
+  width: 100,
+  minWidth: 80,
+  sorter: "number",
+  hozAlign: "center",
+  headerSort: true,
+  formatter: function (cell) {
+    const stock = parseInt(cell.getValue());
+    const row = cell.getData(); // Obtenemos toda la fila
+    const desiredStock = parseInt(row.desired_stock); // Campo que viene de la BD
+
+    let badgeClass = "bg-secondary";
+
+    if (!isNaN(stock) && !isNaN(desiredStock)) {
+      if (stock < desiredStock) {
+        badgeClass = "bg-danger"; // 🔴 Bajo
+      } else if (stock === desiredStock) {
+        badgeClass = "bg-warning text-dark"; // 🟡 Normal
+      } else {
+        badgeClass = "bg-success"; // 🟢 Alto
+      }
+    }
+
+    return `<span class="badge ${badgeClass}">${stock}</span>`;
+  },
+},
+
+      {
+        title: "Fecha",
+        field: "registration_date",
+        width: 140, // AMPLIADO
+        minWidth: 120,
+        headerSort: true,
+        formatter: function (cell) {
+          var value = cell.getValue();
+          if (!value) return '<span class="text-muted">N/A</span>';
+          var date = new Date(value);
+          if (isNaN(date.getTime()))
+            return '<span class="text-muted">Fecha inválida</span>';
+
+          var day = String(date.getDate()).padStart(2, "0");
+          var month = String(date.getMonth() + 1).padStart(2, "0");
+          var year = date.getFullYear();
+          return `<small class="text-muted">${day}/${month}/${year}</small>`;
+        },
+        cssClass: "small",
+      },
+      {
+        title: "Imagen",
+        field: "image_url",
+        width: 110, // AMPLIADO
+        minWidth: 90,
+        formatter: function (cell) {
+          var row = cell.getData();
+          if (!row.image_url) {
+            return '<div class="d-flex justify-content-center"><i class="fas fa-image text-muted" style="font-size: 24px;"></i></div>';
+          }
+          var version = row.image_version || Date.now();
+          var src = BASE_URL + row.image_url + "?v=" + version;
+          return `<div class="d-flex justify-content-center">
                   <img src="${src}" 
                        style="max-height:40px; max-width:40px; border-radius: 6px; object-fit: cover;" 
                        alt="Imagen" 
                        loading="lazy" 
                        class="border shadow-sm" />
                 </div>`;
+        },
+        hozAlign: "center",
+        headerSort: false,
       },
-      hozAlign: "center",
-      headerSort: false
-    },
-    {
-      title: "Acciones",
-      hozAlign: "center",
-      width: 180, // AMPLIADO CONSIDERABLEMENTE
-      minWidth: 150,
-      headerSort: false,
-      formatter: function () {
-        // Detectar móvil dinámicamente
-        const isMobile = window.innerWidth < 768;
-        if (isMobile) {
-          return `
+      {
+        title: "Acciones",
+        hozAlign: "center",
+        width: 180, // AMPLIADO CONSIDERABLEMENTE
+        minWidth: 150,
+        headerSort: false,
+        formatter: function () {
+          // Detectar móvil dinámicamente
+          const isMobile = window.innerWidth < 768;
+          if (isMobile) {
+            return `
             <div class="btn-group-vertical btn-group-sm d-grid gap-1" role="group">
               <button class="btn btn-outline-primary btn-sm edit-btn" title="Editar">
                 Editar
@@ -224,8 +244,8 @@ var table = new Tabulator("#products-table", {
               </button>
             </div>
           `;
-        } else {
-          return `
+          } else {
+            return `
             <div class="btn-group btn-group-sm" role="group">
               <button class="btn btn-outline-primary edit-btn" title="Editar producto">
                 <i class="fas fa-edit"></i> Editar
@@ -235,67 +255,85 @@ var table = new Tabulator("#products-table", {
               </button>
             </div>
           `;
-        }
+          }
+        },
+        cellClick: function (e, cell) {
+          var rowData = cell.getRow().getData();
+
+          // EDITAR
+          if (
+            e.target.classList.contains("edit-btn") ||
+            e.target.closest(".edit-btn")
+          ) {
+            document.getElementById("edit-product-id").value =
+              rowData.product_id;
+            document.getElementById("edit-product-code").value =
+              rowData.product_code || "";
+            document.getElementById("edit-barcode").value =
+              rowData.barcode || "";
+            document.getElementById("edit-product-name").value =
+              rowData.product_name || "";
+            document.getElementById("edit-product-description").value =
+              rowData.product_description || "";
+            document.getElementById("edit-location").value =
+              rowData.location || "";
+            document.getElementById("edit-price").value = rowData.price ?? "";
+            document.getElementById("edit-stock").value = rowData.stock ?? "";
+            document.getElementById("edit-category").value =
+              rowData.category_id ?? "";
+            document.getElementById("edit-supplier").value =
+              rowData.supplier_id ?? "";
+            document.getElementById("edit-unit").value = rowData.unit_id ?? "";
+            document.getElementById("edit-currency").value =
+              rowData.currency_id ?? "";
+            document.getElementById("edit-subcategory").value =
+              rowData.subcategory_id ?? "";
+            document.getElementById("edit-desired-stock").value =
+              rowData.desired_stock ?? "";
+            document.getElementById("edit-status").value =
+              rowData.status != null ? rowData.status : "1";
+
+            var editModalEl = document.getElementById("editProductModal");
+            if (editModalEl) new bootstrap.Modal(editModalEl).show();
+          }
+
+          // ELIMINAR
+          if (
+            e.target.classList.contains("delete-btn") ||
+            e.target.closest(".delete-btn")
+          ) {
+            deleteProductID = rowData.product_id;
+            var deleteModalEl = document.getElementById("deleteProductModal");
+            if (deleteModalEl) new bootstrap.Modal(deleteModalEl).show();
+          }
+        },
       },
-      cellClick: function (e, cell) {
-        var rowData = cell.getRow().getData();
-        
-        // EDITAR
-        if (e.target.classList.contains("edit-btn") || e.target.closest('.edit-btn')) {
-          document.getElementById("edit-product-id").value = rowData.product_id;
-          document.getElementById("edit-product-code").value = rowData.product_code || "";
-          document.getElementById("edit-barcode").value = rowData.barcode || "";
-          document.getElementById("edit-product-name").value = rowData.product_name || "";
-          document.getElementById("edit-product-description").value = rowData.product_description || "";
-          document.getElementById("edit-location").value = rowData.location || "";
-          document.getElementById("edit-price").value = rowData.price ?? "";
-          document.getElementById("edit-stock").value = rowData.stock ?? "";
-          document.getElementById("edit-category").value = rowData.category_id ?? "";
-          document.getElementById("edit-supplier").value = rowData.supplier_id ?? "";
-          document.getElementById("edit-unit").value = rowData.unit_id ?? "";
-          document.getElementById("edit-currency").value = rowData.currency_id ?? "";
-          document.getElementById("edit-subcategory").value = rowData.subcategory_id ?? "";
-          document.getElementById("edit-desired-stock").value = rowData.desired_stock ?? "";
-          document.getElementById("edit-status").value = rowData.status != null ? rowData.status : "1";
+    ],
 
-          var editModalEl = document.getElementById("editProductModal");
-          if (editModalEl) new bootstrap.Modal(editModalEl).show();
-        }
-        
-        // ELIMINAR
-        if (e.target.classList.contains("delete-btn") || e.target.closest('.delete-btn')) {
-          deleteProductID = rowData.product_id;
-          var deleteModalEl = document.getElementById("deleteProductModal");
-          if (deleteModalEl) new bootstrap.Modal(deleteModalEl).show();
-        }
-      }
-    }
-  ],
-  
-  // Configuración adicional para mejorar la experiencia
-  headerSort: true,
-  headerSortTristate: true,
-  movableColumns: false,
-  resizableColumns: true,
-  tooltips: true,
-  
-  // Eventos adicionales para mejor UX
-  dataLoaded: function(data) {
-    console.log("Datos cargados:", data.length, "productos");
-  },
-  
-  renderComplete: function() {
-    this.element.style.transition = "opacity 0.3s ease";
-  },
-  
-  rowClick: function(e, row) {
-    // row.getElement().style.backgroundColor = "#f8f9fa";
-  }
-});
+    // Configuración adicional para mejorar la experiencia
+    headerSort: true,
+    headerSortTristate: true,
+    movableColumns: false,
+    resizableColumns: true,
+    tooltips: true,
 
-// CSS mejorado para scroll horizontal funcional
-const style = document.createElement('style');
-style.textContent = `
+    // Eventos adicionales para mejor UX
+    dataLoaded: function (data) {
+      console.log("Datos cargados:", data.length, "productos");
+    },
+
+    renderComplete: function () {
+      this.element.style.transition = "opacity 0.3s ease";
+    },
+
+    rowClick: function (e, row) {
+      // row.getElement().style.backgroundColor = "#f8f9fa";
+    },
+  });
+
+  // CSS mejorado para scroll horizontal funcional
+  const style = document.createElement("style");
+  style.textContent = `
   /* Scroll horizontal para TODOS los tamaños */
   .tabulator {
     overflow-x: auto;
@@ -417,23 +455,24 @@ style.textContent = `
     display: none !important;
   }
 `;
-document.head.appendChild(style);
+  document.head.appendChild(style);
 
-// Redimensionar tabla al cambiar orientación
-window.addEventListener('resize', function() {
-  if (table) {
+  // Redimensionar tabla al cambiar orientación
+  window.addEventListener("resize", function () {
+    if (table) {
+      setTimeout(() => {
+        table.redraw(true);
+      }, 300);
+    }
+  });
+
+  // Indicador de scroll para móviles
+  if (window.innerWidth < 768) {
     setTimeout(() => {
-      table.redraw(true);
-    }, 300);
-  }
-});
-
-// Indicador de scroll para móviles
-if (window.innerWidth < 768) {
-  setTimeout(() => {
-    const scrollHint = document.createElement('div');
-    scrollHint.innerHTML = '📱 Desliza horizontalmente para ver todas las columnas';
-    scrollHint.style.cssText = `
+      const scrollHint = document.createElement("div");
+      scrollHint.innerHTML =
+        "📱 Desliza horizontalmente para ver todas las columnas";
+      scrollHint.style.cssText = `
       position: fixed;
       top: 20px;
       left: 50%;
@@ -448,9 +487,9 @@ if (window.innerWidth < 768) {
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       animation: slideInOut 5s ease-in-out;
     `;
-    
-    const hintStyle = document.createElement('style');
-    hintStyle.textContent = `
+
+      const hintStyle = document.createElement("style");
+      hintStyle.textContent = `
       @keyframes slideInOut {
         0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
         15% { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -458,16 +497,15 @@ if (window.innerWidth < 768) {
         100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
       }
     `;
-    document.head.appendChild(hintStyle);
-    document.body.appendChild(scrollHint);
-    
-    setTimeout(() => {
-      scrollHint.remove();
-      hintStyle.remove();
-    }, 5000);
-  }, 1000);
-}
+      document.head.appendChild(hintStyle);
+      document.body.appendChild(scrollHint);
 
+      setTimeout(() => {
+        scrollHint.remove();
+        hintStyle.remove();
+      }, 5000);
+    }, 1000);
+  }
 
   // Búsqueda local en página actual
   var searchInput = document.getElementById("table-search");
@@ -496,9 +534,11 @@ if (window.innerWidth < 768) {
       var newNameEl = document.getElementById("new-product-name");
       if (newNameEl) formData.append("product_name", newNameEl.value.trim());
       var newDescriptionEl = document.getElementById("product_description");
-      if (newDescriptionEl) formData.append("product_description", newDescriptionEl.value.trim());
+      if (newDescriptionEl)
+        formData.append("product_description", newDescriptionEl.value.trim());
       var newLocationEl = document.getElementById("new-location");
-      if (newLocationEl) formData.append("location", newLocationEl.value.trim());
+      if (newLocationEl)
+        formData.append("location", newLocationEl.value.trim());
       var newPriceEl = document.getElementById("new-price");
       if (newPriceEl) formData.append("price", newPriceEl.value);
       var newStockEl = document.getElementById("new-stock");
@@ -514,7 +554,8 @@ if (window.innerWidth < 768) {
       var subcategoryEl = document.getElementById("new-subcategory");
       if (subcategoryEl) formData.append("subcategory_id", subcategoryEl.value);
       var desiredStockEl = document.getElementById("new-desired-stock");
-      if (desiredStockEl) formData.append("desired_stock", desiredStockEl.value);
+      if (desiredStockEl)
+        formData.append("desired_stock", desiredStockEl.value);
       var statusEl = document.getElementById("new-status");
       if (statusEl) formData.append("status", statusEl.value);
       var imageEl = document.getElementById("new-image");
@@ -523,23 +564,35 @@ if (window.innerWidth < 768) {
       }
       // Validación mínima
       if (!formData.get("product_code") || !formData.get("product_name")) {
-        Swal.fire({ icon: 'warning', title: 'Código y nombre obligatorios', toast: true, position: 'top-end', timer: 3000, showConfirmButton: false });
+        Swal.fire({
+          icon: "warning",
+          title: "Código y nombre obligatorios",
+          toast: true,
+          position: "top-end",
+          timer: 3000,
+          showConfirmButton: false,
+        });
         return;
       }
       fetch(BASE_URL + "api/products.php?action=create", {
         method: "POST",
-        body: formData
+        body: formData,
       })
-        .then(res => {
+        .then((res) => {
           if (!res.ok) {
-            return res.text().then(text => {
-              console.error("Error al crear producto. Status:", res.status, "Body:", text);
+            return res.text().then((text) => {
+              console.error(
+                "Error al crear producto. Status:",
+                res.status,
+                "Body:",
+                text
+              );
               throw new Error("Error al crear producto");
             });
           }
           return res.json();
         })
-        .then(data => {
+        .then((data) => {
           if (data.success) {
             Swal.fire({
               icon: "success",
@@ -547,18 +600,22 @@ if (window.innerWidth < 768) {
               toast: true,
               position: "top-end",
               timer: 2000,
-              showConfirmButton: false
+              showConfirmButton: false,
             });
             cerrarModalYReenfocar("addProductModal", "addProductBtn");
             // Recargar página 1 para ver el nuevo registro
             table.setData("api/products.php?action=list"); // Recargar la tabla aquí
           } else {
-            Swal.fire({ icon: 'error', title: 'Error al crear producto', text: data.message || '' });
+            Swal.fire({
+              icon: "error",
+              title: "Error al crear producto",
+              text: data.message || "",
+            });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
-          Swal.fire({ icon: 'error', title: 'Error en creación' });
+          Swal.fire({ icon: "error", title: "Error en creación" });
         });
     });
   }
@@ -594,9 +651,11 @@ if (window.innerWidth < 768) {
       var currencyEl2 = document.getElementById("edit-currency");
       if (currencyEl2) formData.append("currency_id", currencyEl2.value);
       var subcategoryEl2 = document.getElementById("edit-subcategory");
-      if (subcategoryEl2) formData.append("subcategory_id", subcategoryEl2.value);
+      if (subcategoryEl2)
+        formData.append("subcategory_id", subcategoryEl2.value);
       var desiredStockEl2 = document.getElementById("edit-desired-stock");
-      if (desiredStockEl2) formData.append("desired_stock", desiredStockEl2.value);
+      if (desiredStockEl2)
+        formData.append("desired_stock", desiredStockEl2.value);
       var statusEl2 = document.getElementById("edit-status");
       if (statusEl2) formData.append("status", statusEl2.value);
       var imageEl2 = document.getElementById("edit-image");
@@ -604,24 +663,40 @@ if (window.innerWidth < 768) {
         formData.append("image_file", imageEl2.files[0]);
       }
       // Validación mínima
-      if (!formData.get("product_id") || !formData.get("product_code") || !formData.get("product_name")) {
-        Swal.fire({ icon: 'warning', title: 'Código y nombre obligatorios', toast: true, position: 'top-end', timer: 3000, showConfirmButton: false });
+      if (
+        !formData.get("product_id") ||
+        !formData.get("product_code") ||
+        !formData.get("product_name")
+      ) {
+        Swal.fire({
+          icon: "warning",
+          title: "Código y nombre obligatorios",
+          toast: true,
+          position: "top-end",
+          timer: 3000,
+          showConfirmButton: false,
+        });
         return;
       }
       fetch(BASE_URL + "api/products.php?action=update", {
         method: "POST",
-        body: formData
+        body: formData,
       })
-        .then(res => {
+        .then((res) => {
           if (!res.ok) {
-            return res.text().then(text => {
-              console.error("Error al actualizar producto. Status:", res.status, "Body:", text);
+            return res.text().then((text) => {
+              console.error(
+                "Error al actualizar producto. Status:",
+                res.status,
+                "Body:",
+                text
+              );
               throw new Error("Error al actualizar producto");
             });
           }
           return res.json();
         })
-        .then(data => {
+        .then((data) => {
           if (data.success) {
             Swal.fire({
               icon: "success",
@@ -629,18 +704,22 @@ if (window.innerWidth < 768) {
               toast: true,
               position: "top-end",
               timer: 2000,
-              showConfirmButton: false
+              showConfirmButton: false,
             });
             cerrarModalYReenfocar("editProductModal", "table-search");
             // Recarga la misma página para reflejar cambios
             table.setData("api/products.php?action=list"); // Recargar aquí también
           } else {
-            Swal.fire({ icon: 'error', title: 'Error al actualizar', text: data.message || '' });
+            Swal.fire({
+              icon: "error",
+              title: "Error al actualizar",
+              text: data.message || "",
+            });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
-          Swal.fire({ icon: 'error', title: 'Error en edición' });
+          Swal.fire({ icon: "error", title: "Error en edición" });
         });
     });
   }
@@ -655,16 +734,21 @@ if (window.innerWidth < 768) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ product_id: deleteProductID }),
       })
-        .then(res => {
+        .then((res) => {
           if (!res.ok) {
-            return res.text().then(text => {
-              console.error("Error al eliminar producto. Status:", res.status, "Body:", text);
+            return res.text().then((text) => {
+              console.error(
+                "Error al eliminar producto. Status:",
+                res.status,
+                "Body:",
+                text
+              );
               throw new Error("Error al eliminar producto");
             });
           }
           return res.json();
         })
-        .then(data => {
+        .then((data) => {
           if (data.success) {
             Swal.fire({
               icon: "success",
@@ -672,19 +756,23 @@ if (window.innerWidth < 768) {
               toast: true,
               position: "top-end",
               timer: 2000,
-              showConfirmButton: false
+              showConfirmButton: false,
             });
             // Recarga la misma página para reflejar eliminación
             table.setData("api/products.php?action=list"); // Recarga
             deleteProductID = null;
             cerrarModalYReenfocar("deleteProductModal", "table-search");
           } else {
-            Swal.fire({ icon: 'error', title: 'Error al eliminar', text: data.message || '' });
+            Swal.fire({
+              icon: "error",
+              title: "Error al eliminar",
+              text: data.message || "",
+            });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
-          Swal.fire({ icon: 'error', title: 'Error en eliminación' });
+          Swal.fire({ icon: "error", title: "Error en eliminación" });
         });
     });
   }
@@ -725,7 +813,7 @@ if (window.innerWidth < 768) {
           [
             row.product_id,
             `"${row.product_code}"`,
-            `"${row.barcode || ''}"`,
+            `"${row.barcode || ""}"`,
             `"${row.product_name}"`,
             `"${row.location}"`,
             row.price,
@@ -819,7 +907,9 @@ if (window.innerWidth < 768) {
               // TÍTULO CENTRADO
               doc.setFontSize(16);
               doc.setFont(undefined, "bold");
-              doc.text("REPORTE DE LISTA DE PRODUCTOS", pageWidth / 2, y, { align: "center" });
+              doc.text("REPORTE DE LISTA DE PRODUCTOS", pageWidth / 2, y, {
+                align: "center",
+              });
               y += 10;
               // FORMATO
               doc.setFontSize(10);
@@ -828,7 +918,11 @@ if (window.innerWidth < 768) {
               // Fecha generación
               y += 10;
               doc.setFontSize(9);
-              doc.text("Generado: " + new Date().toLocaleDateString(), data.settings.margin.left, y);
+              doc.text(
+                "Generado: " + new Date().toLocaleDateString(),
+                data.settings.margin.left,
+                y
+              );
             },
           },
         });
@@ -837,5 +931,61 @@ if (window.innerWidth < 768) {
       }
     });
   }
+
+
+  // Esperar a que cargue todo el documento
+  document.addEventListener("DOMContentLoaded", function () {
+    const applyFiltersBtn = document.getElementById("applyFilters");
+    const clearFiltersBtn = document.getElementById("clearFilters");
+
+    // Cuando hagas clic en "Aplicar Filtros"
+    applyFiltersBtn.addEventListener("click", () => {
+      // Obtener los valores seleccionados de cada filtro
+      const status = document.getElementById("statusFilter").value;
+      const stock = document.getElementById("stockFilter").value;
+      const priceFrom = document.getElementById("priceFromFilter").value;
+      const priceTo = document.getElementById("priceToFilter").value;
+
+      // Cargar datos en la tabla usando Tabulator y enviando filtros por GET
+      table.setData(`${BASE_URL}api/products.php?action=list`, {
+        status: status,
+        stock: stock,
+        priceFrom: priceFrom,
+        priceTo: priceTo,
+      });
+    });
+
+   
+  });
+
+
+  document.getElementById("clearFilters").addEventListener("click", function () {
+  // Limpiar todos los campos del formulario
+  document.getElementById("statusFilter").value = "";
+  document.getElementById("stockFilter").value = "";
+  document.getElementById("priceFromFilter").value = "";
+  document.getElementById("priceToFilter").value = "";
+
+  // Recargar la tabla sin filtros (como si fuera la primera vez)
+  table.setData(`${BASE_URL}api/products.php?action=list`, {
+    page: 1,      // volver a la página 1
+    size: 5000    // puedes usar el valor que tú usas por defecto
+  });
+});
+
+
+
+  document.getElementById('applyFilters').addEventListener('click', function () {
+  table.setData(`${BASE_URL}api/products.php?action=list`, {
+    status: document.getElementById('statusFilter').value,
+    stock: document.getElementById('stockFilter').value,
+    priceFrom: document.getElementById('priceFromFilter').value,
+    priceTo: document.getElementById('priceToFilter').value,
+    page: 1, // Reiniciar a la página 1
+    size: 5000 // Aumentar el tamaño de página para mostrar más resultados
+  });
+});
+
+
 
 });
