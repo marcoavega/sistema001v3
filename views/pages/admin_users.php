@@ -1,130 +1,179 @@
 <?php
 // Archivo: views/pages/admin_users.php
-// Se verifica si el usuario ha iniciado sesión antes de acceder a la página.
+
 if (!isset($_SESSION['user'])) {
-  // Si no hay sesión activa, se redirige al login para evitar accesos no autorizados.
   header("Location: " . BASE_URL . "auth/login/");
-  exit(); // Detiene la ejecución del script inmediatamente.
+  exit();
 }
 
-// Se obtiene la URL actual desde la variable GET y se determina el segmento principal de navegación.
-$uri = $_GET['url'] ?? 'admin_users'; // Si no hay parámetro 'url', se usa "admin_users" por defecto.
-$segment = explode('/', trim($uri, '/'))[0]; // Extrae la primera parte de la URL para identificar la sección activa.
+$uri = $_GET['url'] ?? 'admin_users';
+$segment = explode('/', trim($uri, '/'))[0];
 
-ob_start(); // Inicia el almacenamiento en búfer de salida, permitiendo capturar contenido antes de enviarlo al navegador.
+ob_start();
 
-// Se carga el archivo Database.php para obtener la conexión PDO con la base de datos.
 require_once __DIR__ . '/../../models/Database.php';
-$pdo = (new Database())->getConnection(); // Se crea la instancia de conexión con la base de datos.
+$pdo = (new Database())->getConnection();
 
-// Se ejecuta una consulta SQL para obtener los niveles de usuario desde la tabla "levels_users".
 $stmt = $pdo->query("SELECT id_level_user, description_level FROM levels_users ORDER BY level");
-$levels = $stmt->fetchAll(PDO::FETCH_ASSOC); // Se almacena el resultado en un array asociativo.
+$levels = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$username = htmlspecialchars($_SESSION['user']['username']); // Se sanitiza el nombre de usuario para evitar ataques XSS.
+$username = htmlspecialchars($_SESSION['user']['username']);
 
-// Se define el menú lateral con íconos y etiquetas descriptivas.
-$menuItems = [
-  'admin_users' => ['icon' => 'people-fill', 'label' => 'Usuarios'],
-];
+require_once __DIR__ . '/../partials/layouts/lateral_menu_users.php';
 ?>
 
-<!-- Contenedor principal -->
-<div class="container-fluid m-0 p-0">
+<div class="container-fluid m-0 p-0 min-vh-100" data-bs-theme="auto">
   <div class="row g-0">
-    
-    <!-- Barra lateral para pantallas medianas y grandes -->
+
+   <!-- Barra lateral con gradiente moderno -->
     <nav class="col-md-2 d-none d-md-block sidebar min-vh-100">
-      <ul class="nav flex-column pt-3">
-        <?php foreach ($menuItems as $route => $item): ?>
-          <li class="nav-item mb-2">
-            <a class="nav-link text-body d-flex align-items-center <?= $segment === $route ? 'active fw-bold' : '' ?>"
-              href="<?= BASE_URL . $route ?>">
-              <i class="bi bi-<?= $item['icon'] ?> me-2"></i> <?= $item['label'] ?>
-            </a>
-          </li>
-        <?php endforeach; ?>
-      </ul>
+      <div class="pt-4 px-3">
+        <div class="text-center mb-4">
+          <div class=" rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+            <i class="bi bi-box-seam text-primary fs-3"></i>
+          </div>
+          <h6 class=" mt-2 mb-0">Inventario</h6>
+        </div>
+
+        <ul class="nav flex-column">
+          <?php foreach ($menuItems as $route => $item): ?>
+            <li class="nav-item mb-2">
+              <a class="nav-link d-flex align-items-center px-3 py-2 rounded-3 <?= $segment === $route ? 'bg-primary text-white fw-bold' : 'text-body' ?>"
+              href="<?= BASE_URL . $route ?>" style="transition: all 0.3s ease;">
+                <i class="bi bi-<?= $item['icon'] ?> me-3 fs-5"></i>
+                <span class="fw-medium"><?= $item['label'] ?></span>
+              </a>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
     </nav>
 
-    <!-- Contenido principal -->
-    <main class="col-12 col-md-10 px-4 py-3">
-      <!-- Menú desplegable para pantallas pequeñas -->
-      <div class="d-md-none mb-3">
-        <div class="dropdown">
-          <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="mobileMenuBtn" data-bs-toggle="dropdown">
-            <i class="bi bi-list me-1"></i> Menú
-          </button>
-          <ul class="dropdown-menu w-100" aria-labelledby="mobileMenuBtn">
-            <?php foreach ($menuItems as $route => $item): ?>
-              <li>
-                <a class="dropdown-item <?= $segment === $route ? 'active fw-bold' : '' ?>" href="<?= BASE_URL . $route ?>">
-                  <i class="bi bi-<?= $item['icon'] ?> me-1"></i> <?= $item['label'] ?>
-                </a>
-              </li>
-            <?php endforeach; ?>
+    <main class="col-12 col-md-10">
+
+      <div class="bg-body shadow-sm border-bottom">
+        <div class="container-fluid px-4 py-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                  <li class="breadcrumb-item"><a href="<?= BASE_URL ?>dashboard" class="text-decoration-none">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Administración de Usuarios</li>
+                </ol>
+              </nav>
+              <h4 class="mb-0 fw-bold">Gestión de Usuarios</h4>
+              <small class="text-muted">Bienvenido, <?= $username ?></small>
+            </div>
+
+            <div class="d-md-none">
+              <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+                <i class="bi bi-list"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header bg-primary-subtle">
+          <h5 class="offcanvas-title">
+            <i class="bi bi-people-fill me-2"></i>Usuarios
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body bg-body">
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+              <a class="nav-link text-body d-flex align-items-center px-3 py-2 rounded-3 <?= $segment === 'admin_users' ? 'active bg-primary text-white' : '' ?>" href="<?= BASE_URL ?>admin_users">
+                <i class="bi bi-people-fill me-3"></i>Usuarios
+              </a>
+            </li>
           </ul>
         </div>
       </div>
 
-      <!-- Verificación de permisos: Solo usuarios de nivel 1 pueden acceder -->
       <?php if ($_SESSION['user']['level_user'] != 1): ?>
-        <h2>Acceso Denegado</h2>
-        <div class="alert alert-danger">No tienes permiso para ver esta página.</div>
+        <div class="container-fluid px-4 py-5">
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="card border-0 shadow-lg">
+                <div class="card-body text-center py-5">
+                  <div class="mb-4">
+                    <i class="bi bi-shield-exclamation text-warning" style="font-size: 4rem;"></i>
+                  </div>
+                  <h3 class="fw-bold text-warning mb-3">Acceso Denegado</h3>
+                  <p class="text-muted mb-4">No tienes los permisos necesarios para acceder a esta sección del sistema.</p>
+                  <a href="<?= BASE_URL ?>dashboard" class="btn btn-primary px-4">
+                    <i class="bi bi-house me-2"></i>Volver al Dashboard
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       <?php else: ?>
-        <div class="d-flex justify-content-between align-items-center pb-3 mb-3 border-bottom">
-          <h2 class="mb-0">Administración de Usuarios</h2>
-          <span class="text-muted">Bienvenido, <?= $username ?>.</span>
+
+        <div class="container-fluid px-4 py-4">
+          <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-header p-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h3 class="mb-1 fw-bold">Listado de Usuarios</h3>
+                  <p class="mb-0 opacity-75">Gestiona los usuarios del sistema desde aquí</p>
+                </div>
+                <div>
+                  <button id="addUserBtn" class="btn btn-info btn-lg px-4">
+                    <i class="bi bi-person-plus-fill me-2"></i>Nuevo Usuario
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body p-4">
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <div class="position-relative">
+                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                    <input type="text" id="table-search" class="form-control form-control-lg ps-5 rounded-pill border-2" placeholder="Buscar usuarios por nombre o email...">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex gap-2 justify-content-md-end">
+                    <div class="dropdown">
+                      <button class="btn btn-outline-primary dropdown-toggle rounded-pill px-4" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-download me-2"></i>Exportar
+                      </button>
+                      <ul class="dropdown-menu shadow-lg border-0 rounded-3">
+                        <li><h6 class="dropdown-header fw-bold">Formatos disponibles</h6></li>
+                        <li><button id="exportCSVBtn" class="dropdown-item d-flex align-items-center"><i class="bi bi-filetype-csv text-success me-2"></i>Exportar a CSV</button></li>
+                        <li><button id="exportExcelBtn" class="dropdown-item d-flex align-items-center"><i class="bi bi-file-earmark-excel text-success me-2"></i>Exportar a Excel</button></li>
+                        <li><button id="exportPDFBtn" class="dropdown-item d-flex align-items-center"><i class="bi bi-file-earmark-pdf text-danger me-2"></i>Exportar a PDF</button></li>
+                        <li><button id="exportJSONBtn" class="dropdown-item d-flex align-items-center"><i class="bi bi-filetype-json text-info me-2"></i>Exportar a JSON</button></li>
+                      </ul>
+                    </div>
+                    <button class="btn btn-outline-secondary rounded-pill px-4" id="refreshTable">
+                      <i class="bi bi-arrow-clockwise me-2"></i>Actualizar
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <div id="users-table" class="border rounded-3"></div>
+              </div>
+
+              <?php
+              include __DIR__ . '/../partials/modals/modal_add_user.php';
+              include __DIR__ . '/../partials/modals/modal_edit_user.php';
+              include __DIR__ . '/../partials/modals/modal_delete_user.php';
+              ?>
+
+            </div>
+          </div>
         </div>
-
-        <!-- Botones de acción -->
-        <div class="row mb-3 g-2">
-          <div class="col-12 col-md-auto">
-            <button id="addUserBtn" class="btn btn-primary">Agregar Usuario</button>
-            <!-- id="addUserBtn" se usa en JavaScript para abrir el formulario modal de agregar usuario -->
-          </div>
-          <div class="col-12 col-md-auto">
-            <button id="exportCSVBtn" class="btn btn-outline-primary">Exportar a CSV</button>
-            <!-- id="exportCSVBtn" activa la exportación de usuarios en formato CSV -->
-          </div>
-          <div class="col-12 col-md-auto">
-            <button id="exportExcelBtn" class="btn btn-outline-success">Exportar a Excel</button>
-            <!-- id="exportExcelBtn" activa la exportación de datos en formato Excel -->
-          </div>
-          <div class="col-12 col-md-auto">
-            <button id="exportPDFBtn" class="btn btn-outline-danger">Exportar a PDF</button>
-            <!-- id="exportPDFBtn" genera un archivo PDF con los datos de usuarios -->
-          </div>
-          <div class="col-12 col-md-auto">
-            <button id="exportJSONBtn" class="btn btn-outline-secondary">Exportar a JSON</button>
-            <!-- id="exportJSONBtn" exporta los datos en formato JSON -->
-          </div>
-        </div>
-
-        <!-- Buscador de usuarios -->
-        <div class="mb-3">
-          <input type="text" id="table-search" class="form-control" placeholder="Buscar usuarios por nombre o email">
-          <!-- id="table-search" permite buscar dinámicamente usuarios en la tabla con JavaScript -->
-        </div>
-
-        <!-- Tabla de usuarios -->
-        <div id="users-table"></div>
-        <!-- id="users-table" es donde se cargan los datos dinámicamente con Tabulator.js -->
-
-        <!-- Modales: Editar y Eliminar Usuario -->
-        <?php
-        include __DIR__ . '/../partials/modals/modal_edit_user.php';
-        include __DIR__ . '/../partials/modals/modal_delete_user.php';
-        ?>
-
-        <!-- Modal: Agregar Usuario -->
-        <?php
-        include __DIR__ . '/../partials/modals/modal_add_user.php';
-        ?>
 
       <?php endif; ?>
     </main>
-
   </div>
 </div>
 
@@ -133,6 +182,4 @@ $content = ob_get_clean();
 include __DIR__ . '/../partials/layouts/navbar.php';
 ?>
 
-<!-- Script para gestión de usuarios -->
 <script src="<?php echo BASE_URL; ?>assets/js/ajax/admin-users.js"></script>
-<!-- Este script maneja todas las interacciones con la tabla de usuarios, incluyendo búsquedas, ediciones y eliminaciones -->

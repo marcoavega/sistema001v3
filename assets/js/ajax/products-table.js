@@ -246,14 +246,14 @@ document.addEventListener("DOMContentLoaded", function () {
           `;
           } else {
             return `
-            <div class="btn-group btn-group-sm" role="group">
-              <button class="btn btn-outline-primary edit-btn" title="Editar producto">
-                <i class="fas fa-edit"></i> Editar
-              </button>
-              <button class="btn btn-outline-danger delete-btn" title="Eliminar producto">
-                <i class="fas fa-trash"></i> Borrar
-              </button>
-            </div>
+            <div class='btn-group'>
+            <button class='btn btn-sm btn-outline-primary edit-btn me-1'>
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button class='btn btn-sm btn-outline-danger delete-btn'>
+              <i class="bi bi-trash3"></i>
+            </button>
+          </div>
           `;
           }
         },
@@ -332,44 +332,60 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // CSS mejorado para scroll horizontal funcional
-  const style = document.createElement("style");
-  style.textContent = `
-  /* Scroll horizontal para TODOS los tamaños */
+  // CSS mejorado para scroll horizontal funcional
+const style = document.createElement("style");
+style.textContent = `
   .tabulator {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+    margin-bottom: 30px;
   }
-  
-  /* Asegurar que la tabla ocupe todo el ancho disponible */
+
   .tabulator-table {
-    min-width: 1450px; /* AUMENTADO: ancho mínimo para acomodar columnas más anchas */
+    min-width: 1450px;
     touch-action: pan-x;
     width: 100% !important;
+    border-spacing: 0;
   }
-  
-  /* Mejorar scroll horizontal en móviles */
+
+  .tabulator-col:empty,
+  .tabulator-cell:empty:not([data-field]) {
+    display: none !important;
+  }
+
+  .tabulator-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 2px solid #dee2e6;
+  }
+
+  .tabulator-row:hover {
+    background-color: #f8f9fa !important;
+  }
+
   @media (max-width: 767px) {
     .tabulator::-webkit-scrollbar {
-      height: 12px; /* Más alto para móviles */
+      height: 12px;
     }
-    
+
     .tabulator::-webkit-scrollbar-track {
       background: #f1f1f1;
       border-radius: 6px;
     }
-    
+
     .tabulator::-webkit-scrollbar-thumb {
       background: #007bff;
       border-radius: 6px;
       border: 2px solid #f1f1f1;
     }
-    
+
     .tabulator::-webkit-scrollbar-thumb:hover {
       background: #0056b3;
     }
-    
-    /* Indicador visual de scroll */
+
     .tabulator::after {
       content: "← Desliza para ver más columnas →";
       position: absolute;
@@ -379,100 +395,56 @@ document.addEventListener("DOMContentLoaded", function () {
       font-size: 12px;
       color: #007bff;
       font-weight: 500;
-      text-align: center;
       pointer-events: none;
     }
-    
-    /* Padding mejorado para móviles */
+
     .tabulator-cell {
       padding: 8px 6px !important;
       font-size: 13px;
     }
-    
+
     .tabulator-col {
       padding: 10px 6px !important;
       font-size: 12px;
       font-weight: 600;
     }
-    
-    /* Botones más compactos en móviles */
+
     .btn-group-vertical .btn {
       font-size: 11px;
       padding: 4px 8px;
     }
   }
-  
-  /* Scroll más sutil en desktop */
+
   @media (min-width: 768px) {
     .tabulator::-webkit-scrollbar {
       height: 8px;
     }
-    
+
     .tabulator::-webkit-scrollbar-track {
       background: #f1f1f1;
       border-radius: 4px;
     }
-    
+
     .tabulator::-webkit-scrollbar-thumb {
       background: #888;
       border-radius: 4px;
     }
-    
+
     .tabulator::-webkit-scrollbar-thumb:hover {
       background: #555;
     }
   }
-  
-  /* Estilos generales */
-  .tabulator {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative;
-    margin-bottom: 30px; /* Espacio para el indicador de scroll */
-  }
-  
-  .tabulator-header {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-bottom: 2px solid #dee2e6;
-  }
-  
-  .tabulator-row:hover {
-    background-color: #f8f9fa !important;
-  }
-  
-  /* Eliminar espacios vacíos innecesarios */
-  .tabulator-table {
-    border-spacing: 0;
-  }
-  
-  /* NUEVO: Prevenir columnas vacías adicionales */
-  .tabulator-col:empty {
-    display: none !important;
-  }
-  
-  .tabulator-cell:empty:not([data-field]) {
-    display: none !important;
-  }
 `;
-  document.head.appendChild(style);
 
-  // Redimensionar tabla al cambiar orientación
-  window.addEventListener("resize", function () {
-    if (table) {
-      setTimeout(() => {
-        table.redraw(true);
-      }, 300);
-    }
-  });
 
-  // Indicador de scroll para móviles
-  if (window.innerWidth < 768) {
-    setTimeout(() => {
-      const scrollHint = document.createElement("div");
-      scrollHint.innerHTML =
-        "📱 Desliza horizontalmente para ver todas las columnas";
-      scrollHint.style.cssText = `
+document.head.appendChild(style);
+
+// Indicador visual de scroll para móviles
+if (window.innerWidth < 768) {
+  setTimeout(() => {
+    const scrollHint = document.createElement("div");
+    scrollHint.innerHTML = "📱 Desliza horizontalmente para ver todas las columnas";
+    scrollHint.style.cssText = `
       position: fixed;
       top: 20px;
       left: 50%;
@@ -488,8 +460,8 @@ document.addEventListener("DOMContentLoaded", function () {
       animation: slideInOut 5s ease-in-out;
     `;
 
-      const hintStyle = document.createElement("style");
-      hintStyle.textContent = `
+    const hintStyle = document.createElement("style");
+    hintStyle.textContent = `
       @keyframes slideInOut {
         0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
         15% { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -497,15 +469,16 @@ document.addEventListener("DOMContentLoaded", function () {
         100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
       }
     `;
-      document.head.appendChild(hintStyle);
-      document.body.appendChild(scrollHint);
+    document.head.appendChild(hintStyle);
+    document.body.appendChild(scrollHint);
 
-      setTimeout(() => {
-        scrollHint.remove();
-        hintStyle.remove();
-      }, 5000);
-    }, 1000);
-  }
+    setTimeout(() => {
+      scrollHint.remove();
+      hintStyle.remove();
+    }, 5000);
+  }, 1000);
+}
+
 
   // Búsqueda local en página actual
   var searchInput = document.getElementById("table-search");

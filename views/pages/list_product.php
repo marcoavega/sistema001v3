@@ -318,7 +318,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_products.php';
     background-color: var(--bs-secondary-bg) !important;
   }
 
-  /* Animaciones sutiles */
+  /* Animaciones sutiles 
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -331,9 +331,11 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_products.php';
     }
   }
 
+
   .card {
     animation: fadeInUp 0.5s ease-out;
   }
+    */
 
   /* Botones con efectos */
   .btn {
@@ -362,7 +364,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_products.php';
   border-radius: 12px !important;
   overflow: hidden;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
+  
 }
 
 /* Header de la tabla */
@@ -444,7 +446,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_products.php';
 .tabulator .tabulator-footer .tabulator-page:hover {
   transform: translateY(-1px);
 }
-color
+
 .tabulator .tabulator-footer .tabulator-page.active {
   background: #007bff;
   border-color: #007bff;
@@ -503,6 +505,12 @@ color
   text-decoration: underline !important;
 }
 
+/*
+.card:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+*/
 
 </style>
 
