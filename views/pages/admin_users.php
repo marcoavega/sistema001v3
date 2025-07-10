@@ -30,9 +30,9 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_users.php';
       <div class="pt-4 px-3">
         <div class="text-center mb-4">
           <div class=" rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-            <i class="bi bi-box-seam text-primary fs-3"></i>
+            <i class="bi bi-people-fill text-primary fs-3"></i>
           </div>
-          <h6 class=" mt-2 mb-0">Inventario</h6>
+          <h6 class=" mt-2 mb-0">Usuarios</h6>
         </div>
 
         <ul class="nav flex-column">

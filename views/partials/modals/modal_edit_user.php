@@ -6,24 +6,33 @@
          'aria-labelledby="editUserModalLabel"' mejora la accesibilidad, asociando el modal con su título.
          'aria-hidden="true"' indica que el modal está oculto inicialmente para los lectores de pantalla. -->
 
-    <div class="modal-dialog">
-        <!-- 'modal-dialog' es el contenedor principal del modal, definiendo su estructura. -->
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <!-- 'modal-dialog' es el contenedor principal del modal, definiendo su estructura.
+             'modal-xl' para tamaño extra grande.
+             'modal-dialog-centered' centra verticalmente el modal.
+             'modal-dialog-scrollable' agrega scroll si el contenido es muy largo. -->
 
-        <div class="modal-content">
-            <!-- 'modal-content' agrupa todos los elementos dentro del modal: encabezado, cuerpo y pie de página. -->
+        <div class="modal-content border-0 shadow-lg">
+            <!-- 'modal-content' agrupa todos los elementos dentro del modal: encabezado, cuerpo y pie de página.
+                 'border-0 shadow-lg' para el estilo similar al modal de producto. -->
 
-            <div class="modal-header">
-                <!-- 'modal-header' define la sección superior del modal, incluyendo el título y el botón de cierre. -->
-                <h5 class="modal-title" id="editUserModalLabel">Editar Usuario</h5>
-                <!-- Título del modal, vinculado con 'aria-labelledby' para accesibilidad. -->
-
+            <div class="modal-header bg-gradient position-relative overflow-hidden">
+                <div class="position-absolute top-0 start-0 w-100 h-100 opacity-10">
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        <i class="fas fa-user-edit" style="font-size: 120px;"></i>
+                    </div>
+                </div>
+                <div class="position-relative">
+                    <h4 class="modal-title fw-bold mb-0" id="editUserModalLabel">
+                        <i class="fas fa-edit me-2"></i>
+                        Editar Usuario
+                    </h4>
+                    <small class="opacity-75">Modifique la información del usuario</small>
+                </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                <!-- Botón de cierre que permite cerrar el modal sin necesidad de JavaScript adicional.
-                     'data-bs-dismiss="modal"' le indica a Bootstrap que este botón cerrará el modal.
-                     'aria-label="Cerrar"' mejora la accesibilidad al proporcionar una descripción clara. -->
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body p-4">
                 <!-- Contenido principal del modal, donde se muestra el formulario de edición de usuario. -->
                 <form id="editUserForm">
                     <!-- Formulario con 'id="editUserForm"' para identificarlo y procesarlo con JavaScript. -->
@@ -81,3 +90,33 @@
         </div>
     </div>
 </div>
+
+<style>
+.form-control:focus, .form-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.modal.show .modal-dialog {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn {
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+</style>

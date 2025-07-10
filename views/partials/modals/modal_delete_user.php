@@ -6,12 +6,12 @@
          'aria-labelledby="deleteUserModalLabel"' vincula el modal con su título, mejorando accesibilidad.
          'aria-hidden="true"' indica que el modal está oculto inicialmente para los lectores de pantalla. -->
 
-    <div class="modal-dialog modal-dialog-centered">
-        <!-- 'modal-dialog' define la estructura y tamaño del modal.
-             'modal-dialog-centered' centra el modal verticalmente en la pantalla. -->
+    <div class="modal-dialog">
+        <!-- 'modal-dialog' define la estructura y tamaño del modal. -->
 
-        <div class="modal-content">
-            <!-- Contenedor principal del modal que agrupa los elementos del encabezado, cuerpo y pie de página. -->
+        <div class="modal-content border-0 shadow-lg">
+            <!-- Contenedor principal del modal que agrupa los elementos del encabezado, cuerpo y pie de página,
+                 con sombra y sin borde para un diseño moderno. -->
 
             <div class="modal-header bg-danger text-white">
                 <!-- Encabezado del modal, con fondo rojo ('bg-danger') para alertar sobre una acción crítica.
@@ -28,7 +28,7 @@
 
             <div class="modal-body">
                 <!-- Contenido principal del modal donde se muestra el mensaje de confirmación. -->
-                ¿Estás seguro que deseas eliminar este usuario?
+                <p>¿Estás seguro que deseas eliminar este usuario?</p>
             </div>
 
             <div class="modal-footer">
