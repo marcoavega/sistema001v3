@@ -190,9 +190,6 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_products.php';
                       </ul>
                     </div>
 
-                    <button class="btn btn-outline-secondary rounded-pill px-4" id="refreshTable">
-                      <i class="bi bi-arrow-clockwise me-2"></i>Actualizar
-                    </button>
                   </div>
                 </div>
               </div>
@@ -318,7 +315,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_products.php';
     background-color: var(--bs-secondary-bg) !important;
   }
 
-  /* Animaciones sutiles 
+  /*Animaciones sutiles*/ 
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -335,7 +332,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_products.php';
   .card {
     animation: fadeInUp 0.5s ease-out;
   }
-    */
+
 
   /* Botones con efectos */
   .btn {

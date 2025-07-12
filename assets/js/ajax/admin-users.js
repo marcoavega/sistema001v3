@@ -15,69 +15,60 @@ document.addEventListener("DOMContentLoaded", function () {
     responsiveLayout: "collapse",
     placeholder: "Cargando usuarios...",
     columns: [
-      { title: "ID", field: "user_id", width: 70, sorter: "number" },
-      { title: "Usuario", field: "username" },
-      { title: "Email", field: "email" },
-      { title: "Nivel", field: "description_level", hozAlign: "center" },
-      {
-        title: "Creado",
-        field: "created_at",
-        formatter: cell => {
-          const value = cell.getValue();
-          const date = new Date(value);
-          if (isNaN(date.getTime())) return "";
-          const day = date.getDate().toString().padStart(2, "0");
-          const month = (date.getMonth() + 1).toString().padStart(2, "0");
-          return `${day}/${month}/${date.getFullYear()}`;
-        },
+    { title: "ID",         field: "user_id",          widthGrow: 1, sorter: "number" },
+    { title: "Usuario",    field: "username",         widthGrow: 1 },
+    { title: "Email",      field: "email",            widthGrow: 1 },
+    { title: "Nivel",      field: "description_level",widthGrow: 1, hozAlign: "center" },
+    {
+      title: "Creado",
+      field: "created_at",
+      widthGrow: 1,
+      formatter: cell => {
+        const d = new Date(cell.getValue());
+        return isNaN(d) ? "" : `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
       },
-      {
-        title: "Actualizado",
-        field: "updated_at",
-        formatter: cell => {
-          const value = cell.getValue();
-          const date = new Date(value);
-          if (isNaN(date.getTime())) return "";
-          const day = date.getDate().toString().padStart(2, "0");
-          const month = (date.getMonth() + 1).toString().padStart(2, "0");
-          return `${day}/${month}/${date.getFullYear()}`;
-        },
+    },
+    {
+      title: "Actualizado",
+      field: "updated_at",
+      widthGrow: 1,
+      formatter: cell => {
+        const d = new Date(cell.getValue());
+        return isNaN(d) ? "" : `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
       },
-      {
-        title: "Acciones",
-        responsive: false,
-        hozAlign: "center",
-        width: 150,
-        formatter: () => `
-          <div class='btn-group'>
-            <button class='btn btn-sm btn-outline-primary edit-btn me-1'>
-              <i class="bi bi-pencil-square"></i>
-            </button>
-            <button class='btn btn-sm btn-outline-danger delete-btn'>
-              <i class="bi bi-trash3"></i>
-            </button>
-          </div>`
-        ,
-        cellClick: (e, cell) => {
-          const rowData = cell.getRow().getData();
-
-          if (e.target.closest(".edit-btn")) {
-            document.getElementById("edit-user-id").value = rowData.user_id;
-            document.getElementById("edit-username").value = rowData.username;
-            document.getElementById("edit-email").value = rowData.email;
-            document.getElementById("edit-level").value = rowData.level_user;
-            new bootstrap.Modal(document.getElementById("editUserModal")).show();
-          }
-
-          if (e.target.closest(".delete-btn")) {
-            deleteUserID = rowData.user_id;
-            new bootstrap.Modal(document.getElementById("deleteUserModal")).show();
-          }
-        },
+    },
+    {
+      title: "Acciones",
+      widthGrow: 1,
+      hozAlign: "center",
+      formatter: () => `
+        <div class='btn-group'>
+          <button class='btn btn-sm btn-outline-primary edit-btn me-1'>
+            <i class="bi bi-pencil-square"></i>
+          </button>
+          <button class='btn btn-sm btn-outline-danger delete-btn'>
+            <i class="bi bi-trash3"></i>
+          </button>
+        </div>`,
+      cellClick: (e, cell) => {
+        const rowData = cell.getRow().getData();
+        if (e.target.closest(".edit-btn")) {
+          document.getElementById("edit-user-id").value = rowData.user_id;
+          document.getElementById("edit-username").value = rowData.username;
+          document.getElementById("edit-email").value    = rowData.email;
+          document.getElementById("edit-level").value    = rowData.level_user;
+          new bootstrap.Modal(document.getElementById("editUserModal")).show();
+        }
+        if (e.target.closest(".delete-btn")) {
+          deleteUserID = rowData.user_id;
+          new bootstrap.Modal(document.getElementById("deleteUserModal")).show();
+        }
       },
-    ],
+    },
+  ],
   });
 
+  // busqueda en la tabla
   const searchInput = document.getElementById("table-search");
   if (searchInput) {
     searchInput.addEventListener("input", function () {

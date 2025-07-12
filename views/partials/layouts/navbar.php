@@ -227,7 +227,7 @@ $segment = explode('/', trim($uri, '/'))[0];
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link nav-link-modern d-flex flex-column align-items-center <?= $segment === 'inventory' ? 'active' : '' ?>"
+                    <a class="nav-link nav-link-modern d-flex flex-column align-items-center <?= ($segment === 'inventory' || $segment === 'list_product') ? 'active' : '' ?>"
                         href="<?= BASE_URL ?>inventory">
                         <i class="bi bi-box-seam nav-icon"></i>
                         <span class="small">Inventario</span>

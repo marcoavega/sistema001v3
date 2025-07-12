@@ -3,6 +3,8 @@
 
 require_once __DIR__ . '/../models/Product.php';
 require_once __DIR__ . '/../models/Database.php';
+require_once __DIR__ . '/../models/Logger.php';
+
 
 class ProductController
 {
@@ -44,10 +46,31 @@ class ProductController
      * El endpoint (api/products.php) se encargará de procesar imagen y
      * luego llamar a este método, o directamente devolverá el resultado con version.
      */
-    public function createProduct($data)
-    {
-        return $this->productModel->createProduct($data);
+   public function createProduct($data)
+{
+    // Verificar si el nombre del producto viene correctamente
+    error_log("🟠 createProduct(): \$data = " . print_r($data, true));
+
+    $result = $this->productModel->createProduct($data);
+
+    if ($result['success']) {
+        require_once __DIR__ . '/../models/Logger.php';
+        $userId = $_SESSION['user']['user_id'] ?? 0;
+
+        // Asegurar que product_name no esté vacío
+        $productName = !empty($data['product_name']) ? $data['product_name'] : 'Producto sin nombre';
+
+        // También lo logeamos por si acaso
+        error_log("🟢 Producto creado. Nombre recibido para log: " . $productName);
+
+        $logger = new Logger();
+        $logger->log($userId, "Creó el producto: $productName");
     }
+
+    return $result;
+}
+
+
 
     /**
      * Actualiza un producto. Se espera que $data incluya image_url si ya se procesó imagen
@@ -65,33 +88,31 @@ class ProductController
     }
 
     public function getStatistics()
-{
-    $products = $this->productModel->getAllProducts();
+    {
+        $products = $this->productModel->getAllProducts();
 
-    $total = count($products);
-    $inStock = 0;
-    $lowStock = 0;
-    $totalValue = 0;
+        $total = count($products);
+        $inStock = 0;
+        $lowStock = 0;
+        $totalValue = 0;
 
-    foreach ($products as $p) {
-        if ((int)$p['stock'] > 0) {
-            $inStock++;
+        foreach ($products as $p) {
+            if ((int)$p['stock'] > 0) {
+                $inStock++;
+            }
+            if (isset($p['desired_stock']) && is_numeric($p['desired_stock']) && (int)$p['stock'] < (int)$p['desired_stock']) {
+                $lowStock++;
+            }
+            $totalValue += ((float)$p['stock']) * ((float)$p['price']);
         }
-        if (isset($p['desired_stock']) && is_numeric($p['desired_stock']) && (int)$p['stock'] < (int)$p['desired_stock']) {
-            $lowStock++;
-        }
-        $totalValue += ((float)$p['stock']) * ((float)$p['price']);
+
+        return [
+            'total' => $total,
+            'inStock' => $inStock,
+            'lowStock' => $lowStock,
+            'totalValue' => number_format($totalValue, 2)
+        ];
     }
-
-    return [
-        'total' => $total,
-        'inStock' => $inStock,
-        'lowStock' => $lowStock,
-        'totalValue' => number_format($totalValue, 2)
-    ];
-}
-
-
 }
 
 

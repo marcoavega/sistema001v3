@@ -89,226 +89,197 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Configuración de columnas - TODAS VISIBLES CON ESPACIOS OPTIMIZADOS
     columns: [
-      {
-        title: "ID",
-        field: "product_id",
-        width: 90, // AMPLIADO
-        minWidth: 70,
-        sorter: "number",
-        hozAlign: "center",
-      },
-      {
-        title: "Código",
-        field: "product_code",
-        width: 120, // AMPLIADO
-        minWidth: 120,
-      },
-      {
-        title: "Código Barras",
-        field: "barcode",
-        width: 160, // AMPLIADO
-        minWidth: 140,
-      },
-      {
-        title: "Name",
-        field: "product_name",
-        width: 280, // AMPLIADO CONSIDERABLEMENTE
-        minWidth: 200,
-        formatter: function (cell) {
-          const data = cell.getData();
-          const productId = data.product_id;
-          const name = cell.getValue();
-          const link =
-            BASE_URL + "product_detail?id=" + encodeURIComponent(productId);
-          return `<a href="${link}" class="text-decoration-none fw-semibold">${name}</a>`;
-        },
-      },
-      {
-        title: "Ubicación",
-        field: "location",
-        width: 160, // AMPLIADO
-        minWidth: 120,
-        headerSort: true,
-        formatter: function (cell) {
-          const value = cell.getValue();
-          if (!value) return '<span class="text-muted">Sin ubicación</span>';
-          return `<span class="badge bg-light text-dark border">${value}</span>`;
-        },
-      },
-      {
-        title: "Precio",
-        field: "price",
-        width: 130, // AMPLIADO
-        minWidth: 110,
-        hozAlign: "right",
-        headerSort: true,
-        formatter: function (cell) {
-          const value = cell.getValue();
-          if (value == null || value === "")
-            return '<span class="text-muted">N/A</span>';
-          return `<span class="fw-bold">${parseFloat(value).toLocaleString(
-            "es-MX",
-            { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-          )}</span>`;
-        },
-      },
-      {
-  title: "Stock",
-  field: "stock",
-  width: 100,
-  minWidth: 80,
-  sorter: "number",
-  hozAlign: "center",
-  headerSort: true,
-  formatter: function (cell) {
-    const stock = parseInt(cell.getValue());
-    const row = cell.getData(); // Obtenemos toda la fila
-    const desiredStock = parseInt(row.desired_stock); // Campo que viene de la BD
-
-    let badgeClass = "bg-secondary";
-
-    if (!isNaN(stock) && !isNaN(desiredStock)) {
-      if (stock < desiredStock) {
-        badgeClass = "bg-danger"; // 🔴 Bajo
-      } else if (stock === desiredStock) {
-        badgeClass = "bg-warning text-dark"; // 🟡 Normal
-      } else {
-        badgeClass = "bg-success"; // 🟢 Alto
-      }
-    }
-
-    return `<span class="badge ${badgeClass}">${stock}</span>`;
+  {
+    title: "ID",
+    field: "product_id",
+    hozAlign: "center",
+    sorter: "number",
+    widthGrow: 1,
   },
-},
-
-      {
-        title: "Fecha",
-        field: "registration_date",
-        width: 140, // AMPLIADO
-        minWidth: 120,
-        headerSort: true,
-        formatter: function (cell) {
-          var value = cell.getValue();
-          if (!value) return '<span class="text-muted">N/A</span>';
-          var date = new Date(value);
-          if (isNaN(date.getTime()))
-            return '<span class="text-muted">Fecha inválida</span>';
-
-          var day = String(date.getDate()).padStart(2, "0");
-          var month = String(date.getMonth() + 1).padStart(2, "0");
-          var year = date.getFullYear();
-          return `<small class="text-muted">${day}/${month}/${year}</small>`;
-        },
-        cssClass: "small",
-      },
-      {
-        title: "Imagen",
-        field: "image_url",
-        width: 110, // AMPLIADO
-        minWidth: 90,
-        formatter: function (cell) {
-          var row = cell.getData();
-          if (!row.image_url) {
-            return '<div class="d-flex justify-content-center"><i class="fas fa-image text-muted" style="font-size: 24px;"></i></div>';
-          }
-          var version = row.image_version || Date.now();
-          var src = BASE_URL + row.image_url + "?v=" + version;
-          return `<div class="d-flex justify-content-center">
-                  <img src="${src}" 
-                       style="max-height:40px; max-width:40px; border-radius: 6px; object-fit: cover;" 
-                       alt="Imagen" 
-                       loading="lazy" 
-                       class="border shadow-sm" />
-                </div>`;
-        },
-        hozAlign: "center",
-        headerSort: false,
-      },
-      {
-        title: "Acciones",
-        hozAlign: "center",
-        width: 180, // AMPLIADO CONSIDERABLEMENTE
-        minWidth: 150,
-        headerSort: false,
-        formatter: function () {
-          // Detectar móvil dinámicamente
-          const isMobile = window.innerWidth < 768;
-          if (isMobile) {
-            return `
-            <div class="btn-group-vertical btn-group-sm d-grid gap-1" role="group">
-              <button class="btn btn-outline-primary btn-sm edit-btn" title="Editar">
-                Editar
-              </button>
-              <button class="btn btn-outline-danger btn-sm delete-btn" title="Borrar">
-                Borrar
-              </button>
-            </div>
-          `;
-          } else {
-            return `
-            <div class='btn-group'>
-            <button class='btn btn-sm btn-outline-primary edit-btn me-1'>
+  {
+    title: "Código",
+    field: "product_code",
+    widthGrow: 1,
+  },
+  {
+    title: "Código Barras",
+    field: "barcode",
+    widthGrow: 1,
+  },
+  {
+    title: "Name",
+    field: "product_name",
+    widthGrow: 1,
+    formatter: function (cell) {
+      const data = cell.getData();
+      const productId = data.product_id;
+      const name = cell.getValue();
+      const link = BASE_URL + "product_detail?id=" + encodeURIComponent(productId);
+      return `<a href="${link}" class="text-decoration-none fw-semibold">${name}</a>`;
+    },
+  },
+  {
+    title: "Ubicación",
+    field: "location",
+    widthGrow: 1,
+    headerSort: true,
+    formatter: function (cell) {
+      const value = cell.getValue();
+      if (!value) return '<span class="text-muted">Sin ubicación</span>';
+      return `<span class="badge bg-light text-dark border">${value}</span>`;
+    },
+  },
+  {
+    title: "Precio",
+    field: "price",
+    hozAlign: "right",
+    widthGrow: 1,
+    headerSort: true,
+    formatter: function (cell) {
+      const value = cell.getValue();
+      if (value == null || value === "")
+        return '<span class="text-muted">N/A</span>';
+      return `<span class="fw-bold">${parseFloat(value).toLocaleString(
+        "es-MX",
+        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+      )}</span>`;
+    },
+  },
+  {
+    title: "Stock",
+    field: "stock",
+    hozAlign: "center",
+    sorter: "number",
+    widthGrow: 1,
+    headerSort: true,
+    formatter: function (cell) {
+      const stock = parseInt(cell.getValue());
+      const row = cell.getData();
+      const desiredStock = parseInt(row.desired_stock);
+      let badgeClass = "bg-secondary";
+      if (!isNaN(stock) && !isNaN(desiredStock)) {
+        if (stock < desiredStock) badgeClass = "bg-danger";
+        else if (stock === desiredStock) badgeClass = "bg-warning text-dark";
+        else badgeClass = "bg-success";
+      }
+      return `<span class="badge ${badgeClass}">${stock}</span>`;
+    },
+  },
+  {
+    title: "Fecha",
+    field: "registration_date",
+    widthGrow: 1,
+    headerSort: true,
+    formatter: function (cell) {
+      const value = cell.getValue();
+      if (!value) return '<span class="text-muted">N/A</span>';
+      const date = new Date(value);
+      if (isNaN(date.getTime()))
+        return '<span class="text-muted">Fecha inválida</span>';
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
+      return `<small class="text-muted">${day}/${month}/${year}</small>`;
+    },
+    cssClass: "small",
+  },
+  {
+    title: "Imagen",
+    field: "image_url",
+    hozAlign: "center",
+    widthGrow: 1,
+    formatter: function (cell) {
+      const row = cell.getData();
+      if (!row.image_url) {
+        return '<div class="d-flex justify-content-center"><i class="fas fa-image text-muted" style="font-size:24px;"></i></div>';
+      }
+      const version = row.image_version || Date.now();
+      const src = BASE_URL + row.image_url + "?v=" + version;
+      return `<div class="d-flex justify-content-center">
+                <img src="${src}"
+                     style="max-height:40px; max-width:40px; border-radius:6px; object-fit:cover;"
+                     alt="Imagen"
+                     loading="lazy"
+                     class="border shadow-sm"/>
+              </div>`;
+    },
+  },
+  {
+    title: "Acciones",
+    hozAlign: "center",
+    widthGrow: 1,
+    headerSort: false,
+    formatter: function () {
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        return `
+          <div class="btn-group-vertical btn-group-sm d-grid gap-1" role="group">
+            <button class="btn btn-outline-primary btn-sm edit-btn" title="Editar">
+              Editar
+            </button>
+            <button class="btn btn-outline-danger btn-sm delete-btn" title="Borrar">
+              Borrar
+            </button>
+          </div>`;
+      } else {
+        return `
+          <div class="btn-group">
+            <button class="btn btn-sm btn-outline-primary edit-btn me-1">
               <i class="bi bi-pencil-square"></i>
             </button>
-            <button class='btn btn-sm btn-outline-danger delete-btn'>
+            <button class="btn btn-sm btn-outline-danger delete-btn">
               <i class="bi bi-trash3"></i>
             </button>
-          </div>
-          `;
-          }
-        },
-        cellClick: function (e, cell) {
-          var rowData = cell.getRow().getData();
+          </div>`;
+      }
+    },
+    cellClick: function (e, cell) {
+      const rowData = cell.getRow().getData();
+      // EDITAR
+      if (e.target.classList.contains("edit-btn") || e.target.closest(".edit-btn")) {
+        document.getElementById("edit-product-id").value = rowData.product_id;
+        document.getElementById("edit-product-code").value = rowData.product_code || "";
+        document.getElementById("edit-barcode").value = rowData.barcode || "";
+        document.getElementById("edit-product-name").value = rowData.product_name || "";
+        document.getElementById("edit-product-description").value = rowData.product_description || "";
+        document.getElementById("edit-location").value = rowData.location || "";
+        document.getElementById("edit-price").value = rowData.price ?? "";
+        document.getElementById("edit-stock").value = rowData.stock ?? "";
+        document.getElementById("edit-category").value = rowData.category_id ?? "";
+        document.getElementById("edit-supplier").value = rowData.supplier_id ?? "";
+        document.getElementById("edit-unit").value = rowData.unit_id ?? "";
+        document.getElementById("edit-currency").value = rowData.currency_id ?? "";
+        document.getElementById("edit-subcategory").value = rowData.subcategory_id ?? "";
+        document.getElementById("edit-desired-stock").value = rowData.desired_stock ?? "";
+        document.getElementById("edit-status").value = rowData.status != null ? rowData.status : "1";
+        var editModalEl = document.getElementById("editProductModal");
+        if (editModalEl) new bootstrap.Modal(editModalEl).show();
+      }
+      // ELIMINAR
+      if (e.target.classList.contains("delete-btn") || e.target.closest(".delete-btn")) {
+        deleteProductID = rowData.product_id;
+        var deleteModalEl = document.getElementById("deleteProductModal");
+        if (deleteModalEl) new bootstrap.Modal(deleteModalEl).show();
+      }
+    },
+  },
+],
 
-          // EDITAR
-          if (
-            e.target.classList.contains("edit-btn") ||
-            e.target.closest(".edit-btn")
-          ) {
-            document.getElementById("edit-product-id").value =
-              rowData.product_id;
-            document.getElementById("edit-product-code").value =
-              rowData.product_code || "";
-            document.getElementById("edit-barcode").value =
-              rowData.barcode || "";
-            document.getElementById("edit-product-name").value =
-              rowData.product_name || "";
-            document.getElementById("edit-product-description").value =
-              rowData.product_description || "";
-            document.getElementById("edit-location").value =
-              rowData.location || "";
-            document.getElementById("edit-price").value = rowData.price ?? "";
-            document.getElementById("edit-stock").value = rowData.stock ?? "";
-            document.getElementById("edit-category").value =
-              rowData.category_id ?? "";
-            document.getElementById("edit-supplier").value =
-              rowData.supplier_id ?? "";
-            document.getElementById("edit-unit").value = rowData.unit_id ?? "";
-            document.getElementById("edit-currency").value =
-              rowData.currency_id ?? "";
-            document.getElementById("edit-subcategory").value =
-              rowData.subcategory_id ?? "";
-            document.getElementById("edit-desired-stock").value =
-              rowData.desired_stock ?? "";
-            document.getElementById("edit-status").value =
-              rowData.status != null ? rowData.status : "1";
 
-            var editModalEl = document.getElementById("editProductModal");
-            if (editModalEl) new bootstrap.Modal(editModalEl).show();
-          }
 
-          // ELIMINAR
-          if (
-            e.target.classList.contains("delete-btn") ||
-            e.target.closest(".delete-btn")
-          ) {
-            deleteProductID = rowData.product_id;
-            var deleteModalEl = document.getElementById("deleteProductModal");
-            if (deleteModalEl) new bootstrap.Modal(deleteModalEl).show();
-          }
-        },
-      },
-    ],
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Configuración adicional para mejorar la experiencia
     headerSort: true,
@@ -333,8 +304,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // CSS mejorado para scroll horizontal funcional
   // CSS mejorado para scroll horizontal funcional
-const style = document.createElement("style");
-style.textContent = `
+  const style = document.createElement("style");
+  style.textContent = `
   .tabulator {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -436,15 +407,15 @@ style.textContent = `
   }
 `;
 
+  document.head.appendChild(style);
 
-document.head.appendChild(style);
-
-// Indicador visual de scroll para móviles
-if (window.innerWidth < 768) {
-  setTimeout(() => {
-    const scrollHint = document.createElement("div");
-    scrollHint.innerHTML = "📱 Desliza horizontalmente para ver todas las columnas";
-    scrollHint.style.cssText = `
+  // Indicador visual de scroll para móviles
+  if (window.innerWidth < 768) {
+    setTimeout(() => {
+      const scrollHint = document.createElement("div");
+      scrollHint.innerHTML =
+        "📱 Desliza horizontalmente para ver todas las columnas";
+      scrollHint.style.cssText = `
       position: fixed;
       top: 20px;
       left: 50%;
@@ -460,8 +431,8 @@ if (window.innerWidth < 768) {
       animation: slideInOut 5s ease-in-out;
     `;
 
-    const hintStyle = document.createElement("style");
-    hintStyle.textContent = `
+      const hintStyle = document.createElement("style");
+      hintStyle.textContent = `
       @keyframes slideInOut {
         0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
         15% { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -469,16 +440,15 @@ if (window.innerWidth < 768) {
         100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
       }
     `;
-    document.head.appendChild(hintStyle);
-    document.body.appendChild(scrollHint);
+      document.head.appendChild(hintStyle);
+      document.body.appendChild(scrollHint);
 
-    setTimeout(() => {
-      scrollHint.remove();
-      hintStyle.remove();
-    }, 5000);
-  }, 1000);
-}
-
+      setTimeout(() => {
+        scrollHint.remove();
+        hintStyle.remove();
+      }, 5000);
+    }, 1000);
+  }
 
   // Búsqueda local en página actual
   var searchInput = document.getElementById("table-search");
@@ -905,7 +875,6 @@ if (window.innerWidth < 768) {
     });
   }
 
-
   // Esperar a que cargue todo el documento
   document.addEventListener("DOMContentLoaded", function () {
     const applyFiltersBtn = document.getElementById("applyFilters");
@@ -927,38 +896,34 @@ if (window.innerWidth < 768) {
         priceTo: priceTo,
       });
     });
-
-   
   });
 
+  document
+    .getElementById("clearFilters")
+    .addEventListener("click", function () {
+      // Limpiar todos los campos del formulario
+      document.getElementById("statusFilter").value = "";
+      document.getElementById("stockFilter").value = "";
+      document.getElementById("priceFromFilter").value = "";
+      document.getElementById("priceToFilter").value = "";
 
-  document.getElementById("clearFilters").addEventListener("click", function () {
-  // Limpiar todos los campos del formulario
-  document.getElementById("statusFilter").value = "";
-  document.getElementById("stockFilter").value = "";
-  document.getElementById("priceFromFilter").value = "";
-  document.getElementById("priceToFilter").value = "";
+      // Recargar la tabla sin filtros (como si fuera la primera vez)
+      table.setData(`${BASE_URL}api/products.php?action=list`, {
+        page: 1, // volver a la página 1
+        size: 5000, // puedes usar el valor que tú usas por defecto
+      });
+    });
 
-  // Recargar la tabla sin filtros (como si fuera la primera vez)
-  table.setData(`${BASE_URL}api/products.php?action=list`, {
-    page: 1,      // volver a la página 1
-    size: 5000    // puedes usar el valor que tú usas por defecto
-  });
-});
-
-
-
-  document.getElementById('applyFilters').addEventListener('click', function () {
-  table.setData(`${BASE_URL}api/products.php?action=list`, {
-    status: document.getElementById('statusFilter').value,
-    stock: document.getElementById('stockFilter').value,
-    priceFrom: document.getElementById('priceFromFilter').value,
-    priceTo: document.getElementById('priceToFilter').value,
-    page: 1, // Reiniciar a la página 1
-    size: 5000 // Aumentar el tamaño de página para mostrar más resultados
-  });
-});
-
-
-
+  document
+    .getElementById("applyFilters")
+    .addEventListener("click", function () {
+      table.setData(`${BASE_URL}api/products.php?action=list`, {
+        status: document.getElementById("statusFilter").value,
+        stock: document.getElementById("stockFilter").value,
+        priceFrom: document.getElementById("priceFromFilter").value,
+        priceTo: document.getElementById("priceToFilter").value,
+        page: 1, // Reiniciar a la página 1
+        size: 5000, // Aumentar el tamaño de página para mostrar más resultados
+      });
+    });
 });
