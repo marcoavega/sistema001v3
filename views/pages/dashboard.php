@@ -200,8 +200,6 @@ $content = ob_get_clean();
 include __DIR__ . '/../partials/layouts/navbar.php';
 ?>
 
-<!-- Scripts -->
-<script src="<?php echo BASE_URL; ?>assets/js/tabulator.min.js"></script>
 
 
 <script>

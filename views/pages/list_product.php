@@ -518,19 +518,3 @@ include __DIR__ . '/../partials/layouts/navbar.php';
 
 <!-- Script JS -->
 <script src="<?php echo BASE_URL; ?>assets/js/ajax/products-table.js"></script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    fetch(`${BASE_URL}api/products.php?action=stats`)
-      .then(res => res.json())
-      .then(stats => {
-        document.getElementById('totalProducts').textContent = stats.total;
-        document.getElementById('inStock').textContent = stats.inStock;
-        document.getElementById('lowStock').textContent = stats.lowStock;
-        document.getElementById('totalValue').textContent = `$${stats.totalValue}`;
-      })
-      .catch(err => {
-        console.error('Error al cargar estadísticas:', err);
-      });
-  });
-</script>
