@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-07-2025 a las 18:15:46
+-- Tiempo de generación: 12-07-2025 a las 04:56:00
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -706,7 +706,12 @@ INSERT INTO `products` (`product_id`, `product_code`, `barcode`, `product_name`,
 (693, 'MPM-017', NULL, 'BARRA REDONDA ALUMINIO 6061 DE 5/16 INCH X 3.66 MTS.', NULL, 'MAQUINADOS', 80.00, 12, '2024-11-20 12:09:57', 6, 1, 1, 1, '', 5, 2, 1, 0.0000, 0.0000, 0.0000, 3.6600, 0.0000, 0.0079, '2025-06-22 11:11:48'),
 (694, 'MPM-018', NULL, 'BARRA REDONDA DE ALUMINIO 6061 1/4 INCH X 3.66 MTS.', 'Barra', 'MAQUINADO', 48.00, 2, '2024-11-20 12:18:11', 6, 1, 1, 1, 'assets/images/products/product_694.png', 5, 2, 1, 0.0000, 0.0000, 0.0000, 3.6600, 0.0000, 0.0063, '2025-06-27 21:27:29'),
 (708, 'producto2', '7501056231457', 'producto2', 'producto2', 'producto2', 2.00, 2, '2025-07-05 22:36:42', 3, 28, 13, 1, 'assets/images/products/product_708.jpg', 3, 2, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-05 22:39:01'),
-(709, 'producto3', '7501012545879', 'producto3', 'producto3', 'producto3', 3.00, 3, '2025-07-05 22:40:43', 6, 2, 13, 1, 'assets/images/products/product_709.jpg', 3, 3, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-05 22:40:43');
+(709, 'producto3', '7501012545879', 'producto3', 'producto3', 'producto3', 3.00, 1, '2025-07-05 22:40:43', 6, 2, 13, 1, 'assets/images/products/product_709.jpg', 3, 3, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-08 18:10:40'),
+(710, 'producto1', '7501025469875', 'producto1', 'producto1', 'producto1', 1.00, 1, '2025-07-10 20:52:25', 2, 28, 3, 1, 'assets/images/products/product_710.jpg', 5, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-10 20:52:25'),
+(712, 'producto4', '75458754896', 'producto4', 'producto4', 'producto4', 4.00, 4, '2025-07-10 21:01:45', 2, 27, 7, 1, 'assets/images/products/product_712.jpg', 3, 4, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-10 21:01:45'),
+(713, 'producto5', '7523547896', 'producto5', 'producto5', 'producto5', 5.00, 5, '2025-07-10 21:18:01', 3, 18, 3, 1, NULL, 5, 5, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-10 21:18:01'),
+(714, 'producto5', '7523547896', 'producto5', 'producto5', 'producto5', 5.00, 5, '2025-07-10 21:18:11', 3, 18, 3, 1, 'assets/images/products/product_714.jpg', 5, 5, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-10 21:18:11'),
+(717, 'producto77', '752458758458', 'producto7', 'producto7', 'producto7', 7.00, 7, '2025-07-10 21:41:55', 2, 28, 12, 1, 'assets/images/products/product_717.jpg', 5, 7, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-11 19:21:43');
 
 -- --------------------------------------------------------
 
@@ -830,14 +835,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `level_user`, `created_at`, `updated_at`, `img_url`) VALUES
-(2, 'administrador2', 'administrador2@gmail.com', '$2y$10$GgtTWrlYykHcv6hednsnKOEJEKyOG5JQmrMnHjX736nL4p6gK2bAW', 6, '2025-03-18 20:15:59', '2025-06-16 23:12:36', ''),
+(2, 'administrador222', 'administrador222@gmail.com', '$2y$10$GgtTWrlYykHcv6hednsnKOEJEKyOG5JQmrMnHjX736nL4p6gK2bAW', 2, '2025-03-18 20:15:59', '2025-07-10 05:50:39', ''),
 (15, 'administrador1', 'administrador1@gmail.com', '$2y$10$HqeAjVjU2IdwaCGQfV3T.OvgOXuWF.IpPJPKT57FqDO3FtBby5dom', 1, '2025-03-28 23:33:42', '2025-05-22 17:49:07', ''),
-(27, 'administrador', 'administrador@gmail.com', '$2y$10$j.n/yl2twdiwX7qdoYV1t.tT2dYVMYmKB3NCodQ9nyasBqHlOA45C', 1, '2025-04-18 05:44:07', '2025-05-25 01:38:46', 'assets/images/users/administrador.png'),
+(27, 'administrador', 'administrador@gmail.com', '$2y$10$j.n/yl2twdiwX7qdoYV1t.tT2dYVMYmKB3NCodQ9nyasBqHlOA45C', 1, '2025-04-18 05:44:07', '2025-07-10 17:11:40', 'assets/images/users/administrador.jpg'),
 (34, 'administrador3', 'administrador3@gmail.com', '$2y$10$oX3TFhuG8TISWvSvnYZ35eMBtZxhP5HnIviTvUaa9bC9QTxpRvQSe', 1, '2025-05-05 23:16:29', '2025-05-05 23:16:48', ''),
 (46, 'administrador4', 'administrador4@gmail.com', '$2y$10$j25.pyBSiZUGXT5J0H5kRO1Gyw3tLqjx/HEBLdnpfra09SnEz9Xuq', 1, '2025-05-23 01:42:43', '2025-05-23 01:42:43', ''),
-(47, 'administrador5', 'administrador5@gmail.com', '$2y$10$DIUdFkeiI2ls3sBLh0CAW.uoZuiMy.tB2.j6cBiDo89A2alhOa3cS', 1, '2025-05-23 01:43:30', '2025-05-23 01:43:30', ''),
-(49, 'administrador6', 'administrador6@gmail.com', '$2y$10$VPbzrZL5IVBp.T8RiHd1Q.AzBEfKi0jOVmKa/9ca3jJ7Td5tRIiG6', 1, '2025-05-23 02:35:28', '2025-05-23 02:35:28', ''),
-(50, 'administrador8', 'administrador8@gmail.com', '$2y$10$VX60KoRrbUg7d3s6V4tKROrtzh8skkYKXxAq4PS9QiNUZzrTORk9C', 1, '2025-05-23 02:38:41', '2025-05-24 21:12:21', '');
+(47, 'administrador5', 'administrador5@gmail.com', '$2y$10$DIUdFkeiI2ls3sBLh0CAW.uoZuiMy.tB2.j6cBiDo89A2alhOa3cS', 1, '2025-05-23 01:43:30', '2025-05-23 01:43:30', '');
 
 -- --------------------------------------------------------
 
@@ -848,7 +851,7 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `level_user`, `
 CREATE TABLE `user_logs` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `action` enum('login','logout') NOT NULL,
+  `action` varchar(255) NOT NULL,
   `timestamp` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -901,7 +904,40 @@ INSERT INTO `user_logs` (`id`, `user_id`, `action`, `timestamp`) VALUES
 (42, 27, 'login', '2025-06-22 11:45:27'),
 (43, 27, 'login', '2025-06-22 18:30:54'),
 (44, 27, 'login', '2025-06-26 15:56:53'),
-(45, 27, 'login', '2025-07-05 21:52:42');
+(45, 27, 'login', '2025-07-05 21:52:42'),
+(46, 27, 'login', '2025-07-06 22:46:19'),
+(47, 27, 'login', '2025-07-09 09:55:09'),
+(48, 27, 'login', '2025-07-09 22:36:40'),
+(49, 27, 'logout', '2025-07-10 21:18:56'),
+(50, 27, 'login', '2025-07-10 21:19:10'),
+(51, 27, '', '2025-07-10 21:41:55'),
+(52, 27, '', '2025-07-10 21:41:55'),
+(53, 27, '', '2025-07-10 21:59:43'),
+(54, 27, '', '2025-07-10 21:59:43'),
+(55, 27, '', '2025-07-10 22:01:24'),
+(56, 27, '', '2025-07-10 22:01:24'),
+(57, 27, '', '2025-07-10 22:07:38'),
+(58, 27, '', '2025-07-10 22:07:38'),
+(59, 27, '', '2025-07-10 22:16:49'),
+(60, 27, '', '2025-07-10 22:16:49'),
+(61, 27, '', '2025-07-10 22:25:56'),
+(62, 27, '', '2025-07-10 22:25:56'),
+(63, 27, 'Creó producto: producto13', '2025-07-10 22:30:32'),
+(64, 27, 'Creó el producto: producto13', '2025-07-10 22:30:32'),
+(65, 27, 'logout', '2025-07-10 22:30:48'),
+(66, 27, 'login', '2025-07-10 22:30:54'),
+(67, 27, 'Actualizó el producto: producto133', '2025-07-11 08:05:13'),
+(68, 27, 'Eliminó el producto: producto10', '2025-07-11 09:24:21'),
+(69, 27, 'Eliminó el producto: producto9', '2025-07-11 09:43:40'),
+(70, 27, 'Eliminó el producto: producto8', '2025-07-11 10:21:16'),
+(71, 27, 'Creó producto: producto8', '2025-07-11 10:29:24'),
+(72, 27, 'Creó el producto: producto8', '2025-07-11 10:29:24'),
+(73, 27, 'Creó producto: producto8', '2025-07-11 10:29:40'),
+(74, 27, 'Creó el producto: producto8', '2025-07-11 10:29:40'),
+(75, 27, 'Eliminó el producto: producto8', '2025-07-11 10:29:55'),
+(76, 27, 'Actualizó el producto: producto8', '2025-07-11 10:30:40'),
+(77, 27, 'Eliminó el producto: producto8', '2025-07-11 19:21:34'),
+(78, 27, 'Actualizó el producto: producto7', '2025-07-11 19:21:43');
 
 --
 -- Índices para tablas volcadas
@@ -1008,7 +1044,7 @@ ALTER TABLE `levels_users`
 -- AUTO_INCREMENT de la tabla `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=710;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=726;
 
 --
 -- AUTO_INCREMENT de la tabla `subcategories`
@@ -1026,13 +1062,13 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de la tabla `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- Restricciones para tablas volcadas
