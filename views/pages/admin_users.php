@@ -151,9 +151,6 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_users.php';
                         <li><button id="exportJSONBtn" class="dropdown-item d-flex align-items-center"><i class="bi bi-filetype-json text-info me-2"></i>Exportar a JSON</button></li>
                       </ul>
                     </div>
-                    <button class="btn btn-outline-secondary rounded-pill px-4" id="refreshTable">
-                      <i class="bi bi-arrow-clockwise me-2"></i>Actualizar
-                    </button>
                   </div>
                 </div>
               </div>

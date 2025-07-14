@@ -204,6 +204,7 @@ include __DIR__ . '/../partials/layouts/navbar.php';
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  
   // Inyectar CSS para scroll + no wrapping (igual que tabla de productos)
   const style = document.createElement("style");
   style.textContent = `
