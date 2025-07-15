@@ -156,46 +156,44 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_dashboard.php';
         </div>
 
         <!-- Tabla de actividad reciente con Tabulator -->
+        <!-- Tabla de actividad reciente con Tabulator -->
         <div class="card shadow-sm border-0">
           <div class="card-header">
             <div class="row align-items-center">
               <div class="col-md-6">
                 <h5 class="mb-0">Actividad Reciente</h5>
               </div>
-              <div class="col-md-6">
-                <div class="d-flex gap-2 justify-content-md-end">
-                  <div class="dropdown">
-                    <button class="btn btn-outline-primary dropdown-toggle rounded-pill px-4" type="button" data-bs-toggle="dropdown">
-                      <i class="bi bi-download me-2"></i>Exportar
-                    </button>
-                    <ul class="dropdown-menu shadow-lg border-0 rounded-3">
-                      <li>
-                        <h6 class="dropdown-header fw-bold">Formatos disponibles</h6>
-                      </li>
-                      <li>
-                        <button id="exportCSVBtn" class="dropdown-item d-flex align-items-center">
-                          <i class="bi bi-filetype-csv text-success me-2"></i>Exportar a CSV
-                        </button>
-                      </li>
-                      <li>
-                        <button id="exportExcelBtn" class="dropdown-item d-flex align-items-center">
-                          <i class="bi bi-file-earmark-excel text-success me-2"></i>Exportar a Excel
-                        </button>
-                      </li>
-                      <li>
-                        <button id="exportPDFBtn" class="dropdown-item d-flex align-items-center">
-                          <i class="bi bi-file-earmark-pdf text-danger me-2"></i>Exportar a PDF
-                        </button>
-                      </li>
-                      <li>
-                        <button id="exportJSONBtn" class="dropdown-item d-flex align-items-center">
-                          <i class="bi bi-filetype-json text-info me-2"></i>Exportar a JSON
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+
+             <!-- Buscador + Exportar -->
+<div class="row g-2 justify-content-md-end align-items-center mb-3">
+  <div class="col-auto">
+    <div class="position-relative">
+      <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+      <input
+        type="text"
+        id="table-search"
+        class="form-control form-control-sm ps-5 rounded-pill border-2"
+        placeholder="Buscar por fecha, usuario o acción…"
+      >
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="dropdown">
+      <button class="btn btn-outline-primary dropdown-toggle rounded-pill px-3" data-bs-toggle="dropdown">
+        <i class="bi bi-download me-1"></i>Exportar
+      </button>
+      <ul class="dropdown-menu shadow-lg border-0 rounded-3">
+        <li><h6 class="dropdown-header fw-bold">Formatos disponibles</h6></li>
+        <li><button id="exportCSVBtn"   class="dropdown-item"><i class="bi bi-filetype-csv text-success me-2"></i>CSV</button></li>
+        <li><button id="exportExcelBtn" class="dropdown-item"><i class="bi bi-file-earmark-excel text-success me-2"></i>XLSX</button></li>
+        <li><button id="exportPDFBtn"   class="dropdown-item"><i class="bi bi-file-earmark-pdf text-danger me-2"></i>PDF</button></li>
+        <li><button id="exportJSONBtn"  class="dropdown-item"><i class="bi bi-filetype-json text-info me-2"></i>JSON</button></li>
+      </ul>
+    </div>
+  </div>
+</div>
+              <!-- fin buscador + export -->
+
             </div>
           </div>
           <div class="card-body p-0">
@@ -208,6 +206,8 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_dashboard.php';
     </main>
   </div>
 </div>
+
+<script src="<?= BASE_URL ?>assets/js/ajax/dashboard-activity.js"></script>
 
 <style>
   /* Misma transición lateral */
@@ -255,130 +255,3 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_dashboard.php';
 $content = ob_get_clean();
 include __DIR__ . '/../partials/layouts/navbar.php';
 ?>
-
-
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // 1) Inyectar estilos (igual que ya lo tenías)
-  const style = document.createElement("style");
-  style.textContent = `
-    /* No permitir salto de línea en celdas/headers */
-    .tabulator .tabulator-col,
-    .tabulator .tabulator-cell {
-      white-space: nowrap !important;
-    }
-    /* Contenedor Tabulator */
-    .tabulator {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      position: relative;
-      margin-bottom: 30px;
-    }
-    .tabulator-table {
-      min-width: 500px;
-      touch-action: pan-x;
-      width: 100% !important;
-      border-spacing: 0;
-    }
-    .tabulator-header {
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-      border-bottom: 2px solid #dee2e6;
-    }
-    .tabulator-row:hover { background-color: #f8f9fa !important; }
-    /* Scrollbars móviles */
-    @media (max-width: 767px) {
-      .tabulator::-webkit-scrollbar { height: 12px; }
-      .tabulator::-webkit-scrollbar-track { background: #f1f1f1; border-radius:6px; }
-      .tabulator::-webkit-scrollbar-thumb { background: #007bff; border-radius:6px; border:2px solid #f1f1f1; }
-      .tabulator::-webkit-scrollbar-thumb:hover { background: #0056b3; }
-      .tabulator::after {
-        content: "← Desliza para ver más columnas →";
-        position: absolute; bottom: -25px; left: 50%;
-        transform: translateX(-50%); font-size:12px;
-        color:#007bff; font-weight:500; pointer-events:none;
-      }
-      .tabulator-cell { padding: 8px 6px !important; font-size:13px; }
-      .tabulator-col  { padding:10px 6px !important; font-size:12px; font-weight:600; }
-    }
-    /* Scrollbars escritorio */
-    @media (min-width: 768px) {
-      .tabulator::-webkit-scrollbar { height: 8px; }
-      .tabulator::-webkit-scrollbar-track { background: #f1f1f1; border-radius:4px; }
-      .tabulator::-webkit-scrollbar-thumb { background: #888; border-radius:4px; }
-      .tabulator::-webkit-scrollbar-thumb:hover { background: #555; }
-    }
-  `;
-  document.head.appendChild(style);
-
-  // 2) Crear la tabla y guardarla
-  const activityTable = new Tabulator("#recent-activity-table", {
-    layout: "fitColumns",
-    placeholder: "Cargando actividad reciente...",
-
-    // Paginación remota
-    pagination: "remote",
-    paginationSize: 10,
-    paginationSizeSelector: [10, 20, 50, 100],
-    paginationButtonCount: 5,
-
-    // AJAX
-    ajaxURL: BASE_URL + "api/logs.php",
-    ajaxConfig: "GET",
-    paginationDataSent:   { page: "page", size: "size" },
-    paginationDataReceived:{ last_page: "last_page", data: "data" },
-
-    ajaxRequesting: () => {
-      document.querySelector("#recent-activity-table").style.opacity = "0.6";
-    },
-    ajaxResponse: (_,__,response) => {
-      document.querySelector("#recent-activity-table").style.opacity = "1";
-      return response.data || [];
-    },
-
-    columns: [
-      {
-        title: "Fecha",
-        field: "timestamp",
-        sorter: "datetime",
-        hozAlign: "center",
-        formatter: cell => {
-          const d = new Date(cell.getValue());
-          return isNaN(d) ? cell.getValue() : d.toLocaleString("es-ES");
-        },
-        widthGrow: 1,
-      },
-      { title: "Usuario", field: "username", hozAlign: "center", widthGrow: 1 },
-      { title: "Acción",   field: "action",   hozAlign: "left",   widthGrow: 1 },
-    ],
-
-    // Extras
-    headerSort: true,
-    headerSortTristate: true,
-    movableColumns: false,
-    resizableColumns: true,
-    tooltips: true,
-    rowClick: () => {},
-  });
-
-  // 3) Enlazar botones de exportación
-  document.getElementById("exportCSVBtn" ).addEventListener("click", () => {
-    activityTable.download("csv",  "actividad_reciente.csv");
-  });
-  document.getElementById("exportExcelBtn").addEventListener("click", () => {
-    activityTable.download("xlsx", "actividad_reciente.xlsx", { sheetName: "Actividad" });
-  });
-  document.getElementById("exportPDFBtn" ).addEventListener("click", () => {
-    activityTable.download("pdf",  "actividad_reciente.pdf", {
-      orientation: "portrait",
-      title: "Actividad Reciente",
-    });
-  });
-  document.getElementById("exportJSONBtn").addEventListener("click", () => {
-    activityTable.download("json", "actividad_reciente.json");
-  });
-});
-</script>
