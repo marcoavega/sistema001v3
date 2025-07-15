@@ -56,8 +56,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_dashboard.php';
               <a
                 class="nav-link d-flex align-items-center px-3 py-2 rounded-3 <?= $segment === $route ? 'bg-primary text-white fw-bold' : 'text-body' ?>"
                 href="<?= BASE_URL . $route ?>"
-                style="transition: all 0.3s ease;"
-              >
+                style="transition: all 0.3s ease;">
                 <i class="bi bi-<?= $item['icon'] ?> me-3 fs-5"></i>
                 <span class="fw-medium"><?= $item['label'] ?></span>
               </a>
@@ -104,8 +103,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_dashboard.php';
               <li class="nav-item mb-2">
                 <a
                   class="nav-link text-body d-flex align-items-center px-3 py-2 rounded-3 <?= $segment === $route ? 'active bg-primary text-white' : '' ?>"
-                  href="<?= BASE_URL . $route ?>"
-                >
+                  href="<?= BASE_URL . $route ?>">
                   <i class="bi bi-<?= $item['icon'] ?> me-3 fs-5"></i>
                   <?= $item['label'] ?>
                 </a>
@@ -160,12 +158,51 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_dashboard.php';
         <!-- Tabla de actividad reciente con Tabulator -->
         <div class="card shadow-sm border-0">
           <div class="card-header">
-            <h5 class="mb-0">Actividad Reciente</h5>
+            <div class="row align-items-center">
+              <div class="col-md-6">
+                <h5 class="mb-0">Actividad Reciente</h5>
+              </div>
+              <div class="col-md-6">
+                <div class="d-flex gap-2 justify-content-md-end">
+                  <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle rounded-pill px-4" type="button" data-bs-toggle="dropdown">
+                      <i class="bi bi-download me-2"></i>Exportar
+                    </button>
+                    <ul class="dropdown-menu shadow-lg border-0 rounded-3">
+                      <li>
+                        <h6 class="dropdown-header fw-bold">Formatos disponibles</h6>
+                      </li>
+                      <li>
+                        <button id="exportCSVBtn" class="dropdown-item d-flex align-items-center">
+                          <i class="bi bi-filetype-csv text-success me-2"></i>Exportar a CSV
+                        </button>
+                      </li>
+                      <li>
+                        <button id="exportExcelBtn" class="dropdown-item d-flex align-items-center">
+                          <i class="bi bi-file-earmark-excel text-success me-2"></i>Exportar a Excel
+                        </button>
+                      </li>
+                      <li>
+                        <button id="exportPDFBtn" class="dropdown-item d-flex align-items-center">
+                          <i class="bi bi-file-earmark-pdf text-danger me-2"></i>Exportar a PDF
+                        </button>
+                      </li>
+                      <li>
+                        <button id="exportJSONBtn" class="dropdown-item d-flex align-items-center">
+                          <i class="bi bi-filetype-json text-info me-2"></i>Exportar a JSON
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="card-body p-0">
             <div id="recent-activity-table" class="border rounded-3"></div>
           </div>
         </div>
+
 
       </div>
     </main>
@@ -174,25 +211,44 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_dashboard.php';
 
 <style>
   /* Misma transición lateral */
-  .sidebar .nav-link:hover { transform: translateX(5px); }
+  .sidebar .nav-link:hover {
+    transform: translateX(5px);
+  }
 
   /* Cards levitan */
-  .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-  .card:hover { transform: translateY(-2px); }
+  .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+  }
 
   /* Tabulator estilo base */
-  .tabulator { border: none !important; background: transparent !important; }
-  .tabulator-header { background: linear-gradient(135deg, #f8f9fa, #e9ecef) !important; border: none !important; }
-  .tabulator-row:hover { background-color: rgba(13,110,253,0.1) !important; }
-  .tabulator-selected { background-color: rgba(13,110,253,0.2) !important; }
+  .tabulator {
+    border: none !important;
+    background: transparent !important;
+  }
+
+  .tabulator-header {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef) !important;
+    border: none !important;
+  }
+
+  .tabulator-row:hover {
+    background-color: rgba(13, 110, 253, 0.1) !important;
+  }
+
+  .tabulator-selected {
+    background-color: rgba(13, 110, 253, 0.2) !important;
+  }
 
   /* Responsive offcanvas text */
   @media (max-width: 767px) {
-    .offcanvas-body .nav-link { padding-left: 1rem; }
+    .offcanvas-body .nav-link {
+      padding-left: 1rem;
+    }
   }
-
-
-  
 </style>
 
 <?php
@@ -204,8 +260,7 @@ include __DIR__ . '/../partials/layouts/navbar.php';
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  
-  // Inyectar CSS para scroll + no wrapping (igual que tabla de productos)
+  // 1) Inyectar estilos (igual que ya lo tenías)
   const style = document.createElement("style");
   style.textContent = `
     /* No permitir salto de línea en celdas/headers */
@@ -213,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
     .tabulator .tabulator-cell {
       white-space: nowrap !important;
     }
-
     /* Contenedor Tabulator */
     .tabulator {
       overflow-x: auto;
@@ -224,28 +278,17 @@ document.addEventListener('DOMContentLoaded', () => {
       position: relative;
       margin-bottom: 30px;
     }
-
     .tabulator-table {
-      min-width: 500px; /* Ajusta según tus columnas */
+      min-width: 500px;
       touch-action: pan-x;
       width: 100% !important;
       border-spacing: 0;
     }
-
-    .tabulator-col:empty,
-    .tabulator-cell:empty:not([data-field]) {
-      display: none !important;
-    }
-
     .tabulator-header {
       background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
       border-bottom: 2px solid #dee2e6;
     }
-
-    .tabulator-row:hover {
-      background-color: #f8f9fa !important;
-    }
-
+    .tabulator-row:hover { background-color: #f8f9fa !important; }
     /* Scrollbars móviles */
     @media (max-width: 767px) {
       .tabulator::-webkit-scrollbar { height: 12px; }
@@ -271,8 +314,8 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
   document.head.appendChild(style);
 
-  // Inicializar Tabulator igual que productos
-  new Tabulator("#recent-activity-table", {
+  // 2) Crear la tabla y guardarla
+  const activityTable = new Tabulator("#recent-activity-table", {
     layout: "fitColumns",
     placeholder: "Cargando actividad reciente...",
 
@@ -285,8 +328,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // AJAX
     ajaxURL: BASE_URL + "api/logs.php",
     ajaxConfig: "GET",
-    paginationDataSent: { page: "page", size: "size" },
-    paginationDataReceived: { last_page: "last_page", data: "data" },
+    paginationDataSent:   { page: "page", size: "size" },
+    paginationDataReceived:{ last_page: "last_page", data: "data" },
 
     ajaxRequesting: () => {
       document.querySelector("#recent-activity-table").style.opacity = "0.6";
@@ -296,34 +339,23 @@ document.addEventListener('DOMContentLoaded', () => {
       return response.data || [];
     },
 
-    // Columnas
-   columns: [
-    {
-      title: "Fecha",
-      field: "timestamp",
-      sorter: "datetime",
-      hozAlign: "center",
-      formatter: cell => {
-        let d = new Date(cell.getValue());
-        return isNaN(d) ? cell.getValue() : d.toLocaleString("es-ES");
+    columns: [
+      {
+        title: "Fecha",
+        field: "timestamp",
+        sorter: "datetime",
+        hozAlign: "center",
+        formatter: cell => {
+          const d = new Date(cell.getValue());
+          return isNaN(d) ? cell.getValue() : d.toLocaleString("es-ES");
+        },
+        widthGrow: 1,
       },
-      widthGrow: 1,  // <— todas las columnas con widthGrow:1
-    },
-    {
-      title: "Usuario",
-      field: "username",
-      hozAlign: "center",
-      widthGrow: 1,
-    },
-    {
-      title: "Acción",
-      field: "action",
-      hozAlign: "left",
-      widthGrow: 1,
-    },
-  ],
+      { title: "Usuario", field: "username", hozAlign: "center", widthGrow: 1 },
+      { title: "Acción",   field: "action",   hozAlign: "left",   widthGrow: 1 },
+    ],
 
-    // Comportamiento extra
+    // Extras
     headerSort: true,
     headerSortTristate: true,
     movableColumns: false,
@@ -331,8 +363,22 @@ document.addEventListener('DOMContentLoaded', () => {
     tooltips: true,
     rowClick: () => {},
   });
+
+  // 3) Enlazar botones de exportación
+  document.getElementById("exportCSVBtn" ).addEventListener("click", () => {
+    activityTable.download("csv",  "actividad_reciente.csv");
+  });
+  document.getElementById("exportExcelBtn").addEventListener("click", () => {
+    activityTable.download("xlsx", "actividad_reciente.xlsx", { sheetName: "Actividad" });
+  });
+  document.getElementById("exportPDFBtn" ).addEventListener("click", () => {
+    activityTable.download("pdf",  "actividad_reciente.pdf", {
+      orientation: "portrait",
+      title: "Actividad Reciente",
+    });
+  });
+  document.getElementById("exportJSONBtn").addEventListener("click", () => {
+    activityTable.download("json", "actividad_reciente.json");
+  });
 });
 </script>
-
-
-

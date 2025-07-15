@@ -25,7 +25,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_users.php';
 <div class="container-fluid m-0 p-0 min-vh-100" data-bs-theme="auto">
   <div class="row g-0">
 
-   <!-- Barra lateral con gradiente moderno -->
+    <!-- Barra lateral con gradiente moderno -->
     <nav class="col-md-2 d-none d-md-block sidebar min-vh-100">
       <div class="pt-4 px-3">
         <div class="text-center mb-4">
@@ -39,7 +39,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_users.php';
           <?php foreach ($menuItems as $route => $item): ?>
             <li class="nav-item mb-2">
               <a class="nav-link d-flex align-items-center px-3 py-2 rounded-3 <?= $segment === $route ? 'bg-primary text-white fw-bold' : 'text-body' ?>"
-              href="<?= BASE_URL . $route ?>" style="transition: all 0.3s ease;">
+                href="<?= BASE_URL . $route ?>" style="transition: all 0.3s ease;">
                 <i class="bi bi-<?= $item['icon'] ?> me-3 fs-5"></i>
                 <span class="fw-medium"><?= $item['label'] ?></span>
               </a>
@@ -144,7 +144,9 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_users.php';
                         <i class="bi bi-download me-2"></i>Exportar
                       </button>
                       <ul class="dropdown-menu shadow-lg border-0 rounded-3">
-                        <li><h6 class="dropdown-header fw-bold">Formatos disponibles</h6></li>
+                        <li>
+                          <h6 class="dropdown-header fw-bold">Formatos disponibles</h6>
+                        </li>
                         <li><button id="exportCSVBtn" class="dropdown-item d-flex align-items-center"><i class="bi bi-filetype-csv text-success me-2"></i>Exportar a CSV</button></li>
                         <li><button id="exportExcelBtn" class="dropdown-item d-flex align-items-center"><i class="bi bi-file-earmark-excel text-success me-2"></i>Exportar a Excel</button></li>
                         <li><button id="exportPDFBtn" class="dropdown-item d-flex align-items-center"><i class="bi bi-file-earmark-pdf text-danger me-2"></i>Exportar a PDF</button></li>
