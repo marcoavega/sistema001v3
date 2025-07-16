@@ -118,6 +118,111 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
+
+  // Editar usuario
+  document.getElementById("saveChangesBtn").addEventListener("click", () => {
+    const updateData = {
+      user_id: parseInt(document.getElementById("edit-user-id").value),
+      username: document.getElementById("edit-username").value,
+      email: document.getElementById("edit-email").value,
+      level_user: parseInt(document.getElementById("edit-level").value),
+    };
+
+    fetch(BASE_URL + "api/users.php?action=update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userData: updateData }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.success) {
+          Swal.fire({ icon: "error", title: "Error al actualizar", text: data.message });
+          return;
+        }
+        table.updateOrAddData([data.updatedData]);
+        bootstrap.Modal.getInstance(document.getElementById("editUserModal")).hide();
+        Swal.fire({
+          icon: "success",
+          title: "Usuario actualizado",
+          toast: true,
+          position: "top-end",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      });
+  });
+
+  // Eliminar usuario
+  document.getElementById("confirmDeleteBtn").addEventListener("click", () => {
+    if (!deleteUserID) return;
+
+    fetch(BASE_URL + "api/users.php?action=delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user_id: parseInt(deleteUserID) }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.success) {
+          Swal.fire({ icon: "error", title: "Error al eliminar", text: data.message });
+          return;
+        }
+        table.deleteRow(deleteUserID);
+        deleteUserID = null;
+        bootstrap.Modal.getInstance(document.getElementById("deleteUserModal")).hide();
+        Swal.fire({
+          icon: "success",
+          title: "Usuario eliminado",
+          toast: true,
+          position: "top-end",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      });
+  });
+
+  // Crear usuario
+  document.getElementById("addUserBtn").addEventListener("click", () => {
+    new bootstrap.Modal(document.getElementById("addUserModal")).show();
+  });
+
+  document.getElementById("saveNewUserBtn").addEventListener("click", () => {
+    const username = document.getElementById("new-username").value.trim();
+    const email = document.getElementById("new-email").value.trim();
+    const password = document.getElementById("new-password").value;
+    const selectElement = document.getElementById("new-level");
+    const levelNew = selectElement.value;
+    const descriptionLevel = selectElement.options[selectElement.selectedIndex].text.trim();
+
+    fetch(BASE_URL + "api/users.php?action=create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userData: { username, email, password, level_user: levelNew },
+      }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.success) {
+          Swal.fire({ icon: "error", title: "Error al crear", text: data.message });
+          return;
+        }
+        data.newUser.description_level = descriptionLevel;
+        table.addData([data.newUser]);
+        bootstrap.Modal.getInstance(document.getElementById("addUserModal")).hide();
+        Swal.fire({
+          icon: "success",
+          title: "Usuario registrado",
+          toast: true,
+          position: "top-end",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      });
+  });
+
+
+
   // Exportar CSV
   document.getElementById("exportCSVBtn").addEventListener("click", () => {
     const datos = table.getData();
@@ -180,32 +285,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Crear usuario
-  document.getElementById("addUserBtn").addEventListener("click", () => {
-    new bootstrap.Modal(document.getElementById("addUserModal")).show();
-  });
+ 
 
-  document.getElementById("saveNewUserBtn").addEventListener("click", () => {
-    const username = document.getElementById("new-username").value.trim();
-    const email = document.getElementById("new-email").value.trim();
-    const password = document.getElementById("new-password").value;
-    const selectElement = document.getElementById("new-level");
-    const levelNew = selectElement.value;
-    const descriptionLevel = selectElement.options[selectElement.selectedIndex].text.trim();
-
-    fetch(BASE_URL + "api/users.php?action=create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userData: { username, email, password, level_user: levelNew },
-      }),
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (!data.success) return alert("Error al crear usuario: " + data.message);
-        data.newUser.description_level = descriptionLevel;
-        table.addData([data.newUser]);
-        bootstrap.Modal.getInstance(document.getElementById("addUserModal")).hide();
-      });
-  });
 });
