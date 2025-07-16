@@ -165,33 +165,35 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_dashboard.php';
               </div>
 
              <!-- Buscador + Exportar -->
-<div class="row g-2 justify-content-md-end align-items-center mb-3">
-  <div class="col-auto">
-    <div class="position-relative">
-      <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
-      <input
-        type="text"
-        id="table-search"
-        class="form-control form-control-sm ps-5 rounded-pill border-2"
-        placeholder="Buscar por fecha, usuario o acción…"
-      >
-    </div>
-  </div>
-  <div class="col-auto">
-    <div class="dropdown">
-      <button class="btn btn-outline-primary dropdown-toggle rounded-pill px-3" data-bs-toggle="dropdown">
-        <i class="bi bi-download me-1"></i>Exportar
-      </button>
-      <ul class="dropdown-menu shadow-lg border-0 rounded-3">
-        <li><h6 class="dropdown-header fw-bold">Formatos disponibles</h6></li>
-        <li><button id="exportCSVBtn"   class="dropdown-item"><i class="bi bi-filetype-csv text-success me-2"></i>CSV</button></li>
-        <li><button id="exportExcelBtn" class="dropdown-item"><i class="bi bi-file-earmark-excel text-success me-2"></i>XLSX</button></li>
-        <li><button id="exportPDFBtn"   class="dropdown-item"><i class="bi bi-file-earmark-pdf text-danger me-2"></i>PDF</button></li>
-        <li><button id="exportJSONBtn"  class="dropdown-item"><i class="bi bi-filetype-json text-info me-2"></i>JSON</button></li>
-      </ul>
-    </div>
-  </div>
-</div>
+<div class="card-body p-4">
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <div class="position-relative">
+                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                    <input type="text" id="table-search" class="form-control form-control-lg ps-5 rounded-pill border-2" placeholder="Buscar usuarios por nombre o email...">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex gap-2 justify-content-md-end">
+                    <div class="dropdown">
+                      <button class="btn btn-outline-primary dropdown-toggle rounded-pill px-4" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-download me-2"></i>Exportar
+                      </button>
+                      <ul class="dropdown-menu shadow-lg border-0 rounded-3">
+                        <li>
+                          <h6 class="dropdown-header fw-bold">Formatos disponibles</h6>
+                        </li>
+                        <li><button id="exportCSVBtn" class="dropdown-item d-flex align-items-center"><i class="bi bi-filetype-csv text-success me-2"></i>Exportar a CSV</button></li>
+                        <li><button id="exportExcelBtn" class="dropdown-item d-flex align-items-center"><i class="bi bi-file-earmark-excel text-success me-2"></i>Exportar a Excel</button></li>
+                        <li><button id="exportPDFBtn" class="dropdown-item d-flex align-items-center"><i class="bi bi-file-earmark-pdf text-danger me-2"></i>Exportar a PDF</button></li>
+                        <li><button id="exportJSONBtn" class="dropdown-item d-flex align-items-center"><i class="bi bi-filetype-json text-info me-2"></i>Exportar a JSON</button></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            
               <!-- fin buscador + export -->
 
             </div>
