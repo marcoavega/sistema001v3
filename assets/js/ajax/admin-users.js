@@ -2,6 +2,25 @@
 
 // Este evento se dispara cuando el DOM ha sido completamente cargado.
 document.addEventListener("DOMContentLoaded", function () {
+
+  // Función reutilizable para cerrar modal y reenfocar
+  function cerrarModalYReenfocar(modalId, focusTargetId) {
+    const modalEl = document.getElementById(modalId);
+    if (!modalEl) return;
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+    const modalInst = bootstrap.Modal.getInstance(modalEl);
+    if (modalInst) {
+      modalInst.hide();
+    }
+    if (focusTargetId) {
+      setTimeout(() => {
+        document.getElementById(focusTargetId)?.focus();
+      }, 300);
+    }
+  }
+
   const usersTableElement = document.getElementById("users-table");
   if (!usersTableElement) return;
 

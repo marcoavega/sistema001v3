@@ -2,6 +2,11 @@
 // Se requiere el modelo de usuario y la conexión a la base de datos para gestionar las operaciones de usuario.
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Database.php';
+require_once __DIR__ . '/../models/Logger.php';
+
+session_start(); // Asegura que haya acceso a $_SESSION
+
+
 
 // Definición de la clase `UserController`, que se encarga de manejar las operaciones sobre usuarios.
 class UserController
@@ -9,11 +14,14 @@ class UserController
 
     // Propiedad privada que almacena la instancia del modelo de usuario.
     private $userModel;
+    private $logger;
+
 
     // **Constructor**: Se ejecuta cuando se instancia la clase.
     public function __construct()
     {
         $this->userModel = new User(); // Se crea una instancia del modelo `User`.
+        $this->logger = new Logger();
     }
 
     // **Método para obtener todos los usuarios**
@@ -41,41 +49,38 @@ ORDER BY users.user_id ASC
     }
 
     // **Método para actualizar un usuario**
+    // **Método para actualizar un usuario**
     public function updateUser($data)
-{
-    $dbInstance = new Database();
-    $pdo = $dbInstance->getConnection();
+    {
+        $dbInstance = new Database();
+        $pdo = $dbInstance->getConnection();
 
-    // Comenzar con el update dinámico
-    $fields = [
-        'username = :username',
-        'email = :email',
-        'level_user = :level_user'
-    ];
+        $fields = [
+            'username = :username',
+            'email = :email',
+            'level_user = :level_user'
+        ];
 
-    // Si viene una nueva contraseña, la añadimos
-    if (!empty($data['password'])) {
-        $fields[] = 'password = :password';
-        $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-    }
+        if (!empty($data['password'])) {
+            $fields[] = 'password = :password';
+            $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+        }
 
-    $sql = "UPDATE users SET " . implode(', ', $fields) . " WHERE user_id = :user_id";
-    $stmt = $pdo->prepare($sql);
+        $sql = "UPDATE users SET " . implode(', ', $fields) . " WHERE user_id = :user_id";
+        $stmt = $pdo->prepare($sql);
 
-    // Bind comunes
-    $stmt->bindParam(':username', $data['username'], PDO::PARAM_STR);
-    $stmt->bindParam(':email', $data['email'], PDO::PARAM_STR);
-    $stmt->bindParam(':level_user', $data['level_user'], PDO::PARAM_INT);
-    $stmt->bindParam(':user_id', $data['user_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':username', $data['username'], PDO::PARAM_STR);
+        $stmt->bindParam(':email', $data['email'], PDO::PARAM_STR);
+        $stmt->bindParam(':level_user', $data['level_user'], PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $data['user_id'], PDO::PARAM_INT);
 
-    // Bind condicional para password
-    if (!empty($data['password'])) {
-        $stmt->bindParam(':password', $data['password'], PDO::PARAM_STR);
-    }
+        if (!empty($data['password'])) {
+            $stmt->bindParam(':password', $data['password'], PDO::PARAM_STR);
+        }
 
-    if ($stmt->execute()) {
-        // Obtener el usuario actualizado
-        $query = $pdo->prepare("SELECT 
+        if ($stmt->execute()) {
+            // Obtener datos del usuario actualizado
+            $query = $pdo->prepare("SELECT 
             users.user_id,
             users.username,
             users.email,
@@ -88,19 +93,26 @@ ORDER BY users.user_id ASC
         JOIN levels_users ON users.level_user = levels_users.id_level_user
         WHERE users.user_id = :user_id");
 
-        $query->bindParam(':user_id', $data['user_id'], PDO::PARAM_INT);
-        $query->execute();
+            $query->bindParam(':user_id', $data['user_id'], PDO::PARAM_INT);
+            $query->execute();
 
-        $updatedUser = $query->fetch(PDO::FETCH_ASSOC);
+            $updatedUser = $query->fetch(PDO::FETCH_ASSOC);
 
-        return [
-            "success" => true,
-            "user" => $updatedUser
-        ];
-    } else {
-        return ["success" => false, "message" => "No se pudo actualizar"];
+            // Registrar log
+            $actorId = $_SESSION['user']['user_id'] ?? null;
+            if ($actorId) {
+                $this->logger->log($actorId, "Actualizó al usuario: " . $updatedUser['username']);
+            }
+
+            return [
+                "success" => true,
+                "user" => $updatedUser
+            ];
+        } else {
+            return ["success" => false, "message" => "No se pudo actualizar"];
+        }
     }
-}
+
 
 
     // **Método para actualizar el perfil del usuario**
@@ -171,23 +183,36 @@ ORDER BY users.user_id ASC
 
 
     // **Método para eliminar un usuario**
+    // **Método para eliminar un usuario**
     public function deleteUser($userID)
     {
-        $dbInstance = new Database(); // Se instancia la base de datos.
-        $pdo = $dbInstance->getConnection(); // Se obtiene la conexión PDO.
+        $dbInstance = new Database();
+        $pdo = $dbInstance->getConnection();
 
-        // Se prepara la consulta SQL para eliminar el usuario por su ID.
+        // Obtener nombre del usuario antes de eliminarlo
+        $stmtUser = $pdo->prepare("SELECT username FROM users WHERE user_id = :user_id");
+        $stmtUser->bindParam(':user_id', $userID, PDO::PARAM_INT);
+        $stmtUser->execute();
+        $user = $stmtUser->fetch(PDO::FETCH_ASSOC);
+
+        // Eliminar usuario
         $stmt = $pdo->prepare("DELETE FROM users WHERE user_id = :user_id");
         $stmt->bindParam(':user_id', $userID, PDO::PARAM_INT);
 
-        // Se ejecuta la consulta y se captura cualquier error.
         if ($stmt->execute()) {
+            // Registrar log si hay sesión activa
+            $actorId = $_SESSION['user']['user_id'] ?? null;
+            if ($actorId && $user) {
+                $this->logger->log($actorId, "Eliminó al usuario: " . $user['username']);
+            }
+
             return ["success" => true];
         } else {
             $errorInfo = $stmt->errorInfo();
             return ["success" => false, "message" => "No se pudo eliminar: " . $errorInfo[2]];
         }
     }
+
 
     // **Método para crear un nuevo usuario**
     public function createUser($data)
@@ -245,6 +270,12 @@ ORDER BY users.user_id ASC
             $new->bindParam(':id', $id, PDO::PARAM_INT);
             $new->execute();
             $user = $new->fetch(PDO::FETCH_ASSOC);
+
+            // 🟨 REGISTRO DE MOVIMIENTO EN LOS LOGS
+            $actorId = $_SESSION['user']['user_id'] ?? null;
+            if ($actorId) {
+                $this->logger->log($actorId, "Creó al usuario: " . $user['username']);
+            }
 
             return ['success' => true, 'user' => $user];
         } else {
