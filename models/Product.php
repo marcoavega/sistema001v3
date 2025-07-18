@@ -165,11 +165,13 @@ class Product
             $newId = (int)$this->db->lastInsertId();
             $created = $this->getProductById($newId);
 
+            /*
             require_once __DIR__ . '/Logger.php';
             $logger = new Logger();
             $userId = $_SESSION['user']['user_id'] ?? 0;
             $logger->log($userId, "Creó producto: " . $data['product_name']);
-
+            */
+            
             return ['success' => true, 'product' => $created];
         } catch (PDOException $e) {
             error_log("Product::createProduct Error: " . $e->getMessage());
