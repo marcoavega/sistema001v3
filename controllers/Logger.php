@@ -1,16 +1,11 @@
 <?php
 // controllers/Logger.php
-
+/*
 require_once __DIR__ . '/../models/Database.php';
 
 class Logger
 {
-    /**
-     * Registra una acción de usuario en la tabla user_logs.
-     *
-     * @param int    $user_id El ID del usuario.
-     * @param string $action  'login' o 'logout'.
-     */
+   
     public static function logAction(int $user_id, string $action): void
     {
         try {
@@ -29,3 +24,4 @@ class Logger
         }
     }
 }
+    */

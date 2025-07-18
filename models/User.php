@@ -33,7 +33,7 @@ class User {
     }
 
      public function updateUserById($userID, $data){
-        $sql = "UPDATE users SET username = :username, email = :email, level_user = :level_user, img_url = :img_url WHERE user_ir = :user_id";
+        $sql = "UPDATE users SET username = :username, email = :email, level_user = :level_user, img_url = :img_url WHERE user_id = :user_id";
         
         $stmt = $this->db->prepare($sql);
 

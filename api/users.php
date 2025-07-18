@@ -50,6 +50,7 @@ switch ($action) {
                 "message" => "No se pudo actualizar"
             ]);
         }
+        
         break;
 
     case 'delete':

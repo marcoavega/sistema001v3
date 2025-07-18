@@ -99,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  /*
   document.getElementById("saveChangesBtn").addEventListener("click", () => {
     const updateData = {
       user_id: parseInt(document.getElementById("edit-user-id").value),
@@ -119,6 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
         bootstrap.Modal.getInstance(document.getElementById("editUserModal")).hide();
       });
   });
+*/
 
   document.getElementById("confirmDeleteBtn").addEventListener("click", () => {
     if (!deleteUserID) return;
