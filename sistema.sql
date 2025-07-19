@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-07-2025 a las 19:14:58
+-- Tiempo de generación: 19-07-2025 a las 02:56:52
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -705,12 +705,9 @@ INSERT INTO `products` (`product_id`, `product_code`, `barcode`, `product_name`,
 (692, 'MPM-015', NULL, 'BARRA REDONDA DE ALUMINIO 6061 DE 5/8 INCH X 3.66 MTS.', NULL, 'MAQUINADOS', 285.00, 8, '2024-11-20 12:03:36', 6, 1, 1, 1, '', 5, 2, 1, 0.0000, 0.0000, 0.0000, 3.6600, 0.0000, 0.0158, '2025-06-22 11:11:48'),
 (693, 'MPM-017', NULL, 'BARRA REDONDA ALUMINIO 6061 DE 5/16 INCH X 3.66 MTS.', NULL, 'MAQUINADOS', 80.00, 12, '2024-11-20 12:09:57', 6, 1, 1, 1, '', 5, 2, 1, 0.0000, 0.0000, 0.0000, 3.6600, 0.0000, 0.0079, '2025-06-22 11:11:48'),
 (694, 'MPM-018', NULL, 'BARRA REDONDA DE ALUMINIO 6061 1/4 INCH X 3.66 MTS.', 'Barra', 'MAQUINADO', 48.00, 2, '2024-11-20 12:18:11', 6, 1, 1, 1, 'assets/images/products/product_694.png', 5, 2, 1, 0.0000, 0.0000, 0.0000, 3.6600, 0.0000, 0.0063, '2025-06-27 21:27:29'),
-(708, 'producto2', '7501056231457', 'producto2', 'producto2', 'producto2', 2.00, 2, '2025-07-05 22:36:42', 3, 28, 13, 1, 'assets/images/products/product_708.jpg', 3, 2, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-05 22:39:01'),
-(709, 'producto3', '7501012545879', 'producto3', 'producto3', 'producto3', 3.00, 1, '2025-07-05 22:40:43', 6, 2, 13, 1, 'assets/images/products/product_709.jpg', 3, 3, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-08 18:10:40'),
-(710, 'producto1', '7501025469875', 'producto1', 'producto1', 'producto1', 1.00, 1, '2025-07-10 20:52:25', 2, 28, 3, 1, 'assets/images/products/product_710.jpg', 5, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-10 20:52:25'),
-(712, 'producto4', '75458754896', 'producto4', 'producto4', 'producto4', 4.00, 4, '2025-07-10 21:01:45', 2, 27, 7, 1, 'assets/images/products/product_712.jpg', 3, 4, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-10 21:01:45'),
-(713, 'producto5', '7523547896', 'producto5', 'producto5', 'producto5', 5.00, 5, '2025-07-10 21:18:01', 3, 18, 3, 1, 'assets/images/products/product_713.jpg', 5, 5, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-12 23:26:31'),
-(714, 'producto5', '7523547896', 'producto5', 'producto5', 'producto5', 5.00, 5, '2025-07-10 21:18:11', 3, 18, 3, 1, 'assets/images/products/product_714.jpg', 5, 5, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-10 21:18:11');
+(713, 'USUARIO', '7523547896', 'USUARIO', 'USUARIO', 'producto5', 5.00, 5, '2025-07-10 21:18:01', 3, 18, 3, 1, 'assets/images/products/product_713.jpg', 5, 5, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-18 12:39:48'),
+(726, 'SAR-001', '7501020236548', 'SARTENES T FAL', 'JUEGO DE 3 SARTENES T FAL', 'ESTANTE 1-A', 599.00, 2, '2025-07-18 12:39:17', 1, 4, 9, 1, 'assets/images/products/product_726.jpg', 5, 5, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-18 12:39:17'),
+(727, 'Sartenes t fal 2', '75012457896', 'Sartenes t fal 2', 'Sartenes t fal 2', 'Sartenes-1', 499.00, 1, '2025-07-18 14:23:44', 1, 17, 9, 1, 'assets/images/products/product_727.jpg', 5, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-18 14:23:44');
 
 -- --------------------------------------------------------
 
@@ -834,11 +831,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `level_user`, `created_at`, `updated_at`, `img_url`) VALUES
-(2, 'administrador222', 'administrador222@gmail.com', '$2y$10$GgtTWrlYykHcv6hednsnKOEJEKyOG5JQmrMnHjX736nL4p6gK2bAW', 2, '2025-03-18 20:15:59', '2025-07-10 05:50:39', ''),
+(2, 'administrador2', 'administrador2@gmail.com', '$2y$10$GgtTWrlYykHcv6hednsnKOEJEKyOG5JQmrMnHjX736nL4p6gK2bAW', 1, '2025-03-18 20:15:59', '2025-07-16 19:40:05', ''),
 (15, 'administrador1', 'administrador1@gmail.com', '$2y$10$HqeAjVjU2IdwaCGQfV3T.OvgOXuWF.IpPJPKT57FqDO3FtBby5dom', 1, '2025-03-28 23:33:42', '2025-05-22 17:49:07', ''),
 (27, 'administrador', 'administrador@gmail.com', '$2y$10$j.n/yl2twdiwX7qdoYV1t.tT2dYVMYmKB3NCodQ9nyasBqHlOA45C', 1, '2025-04-18 05:44:07', '2025-07-10 17:11:40', 'assets/images/users/administrador.jpg'),
 (34, 'administrador3', 'administrador3@gmail.com', '$2y$10$oX3TFhuG8TISWvSvnYZ35eMBtZxhP5HnIviTvUaa9bC9QTxpRvQSe', 1, '2025-05-05 23:16:29', '2025-05-05 23:16:48', ''),
-(46, 'administrador4', 'administrador4@gmail.com', '$2y$10$j25.pyBSiZUGXT5J0H5kRO1Gyw3tLqjx/HEBLdnpfra09SnEz9Xuq', 5, '2025-05-23 01:42:43', '2025-07-13 06:04:24', '');
+(46, 'administrador4', 'administrador4@gmail.com', '$2y$10$j25.pyBSiZUGXT5J0H5kRO1Gyw3tLqjx/HEBLdnpfra09SnEz9Xuq', 1, '2025-05-23 01:42:43', '2025-07-18 00:55:49', ''),
+(58, 'administrador5', 'administrador5@gmail.com', '$2y$10$uwc7Ya1.0BVg0glLXc5x4.MAew0uaT1myUYlUbeA7.lTAzo09FeQ2', 1, '2025-07-17 00:39:41', '2025-07-17 00:39:41', ''),
+(62, 'administrador6', 'administrador6@gmail.com', '$2y$10$PS9cGEuqpobOZgsm9I3iSe5BbCy2wc3wiRo5v4.VHmx5sLPqGEr5.', 1, '2025-07-18 04:14:30', '2025-07-18 04:14:30', '');
 
 -- --------------------------------------------------------
 
@@ -943,7 +942,65 @@ INSERT INTO `user_logs` (`id`, `user_id`, `action`, `timestamp`) VALUES
 (83, 46, 'login', '2025-07-13 00:06:11'),
 (84, 27, 'login', '2025-07-13 09:49:42'),
 (85, 46, 'logout', '2025-07-13 19:43:41'),
-(86, 27, 'login', '2025-07-13 19:43:47');
+(86, 27, 'login', '2025-07-13 19:43:47'),
+(87, 27, 'login', '2025-07-14 23:19:01'),
+(88, 27, 'login', '2025-07-15 22:07:35'),
+(89, 27, 'login', '2025-07-16 09:57:25'),
+(90, 27, 'Actualizó el producto: producto5', '2025-07-16 13:20:43'),
+(91, 27, 'Actualizó el producto: producto5', '2025-07-16 13:20:50'),
+(92, 27, 'Actualizó al usuario: administrador2', '2025-07-16 17:59:25'),
+(93, 27, 'Actualizó al usuario: administrador2', '2025-07-16 17:59:25'),
+(94, 27, 'Actualizó al usuario: administrador4', '2025-07-16 18:00:07'),
+(95, 27, 'Actualizó al usuario: administrador4', '2025-07-16 18:00:07'),
+(96, 27, 'Creó al usuario: administrador5', '2025-07-16 18:00:47'),
+(97, 27, 'Eliminó al usuario: administrador5', '2025-07-16 18:00:58'),
+(98, 27, 'Actualizó al usuario: administrador4', '2025-07-16 18:13:27'),
+(99, 27, 'Actualizó al usuario: administrador4', '2025-07-16 18:13:27'),
+(100, 27, 'Actualizó al usuario: administrador6', '2025-07-16 20:12:24'),
+(101, 27, 'Actualizó al usuario: administrador6', '2025-07-16 20:12:24'),
+(102, 27, 'Creó al usuario: administrador7', '2025-07-16 20:12:45'),
+(103, 27, 'Eliminó al usuario: administrador6', '2025-07-16 20:12:58'),
+(104, 27, 'Actualizó al usuario: administrador7', '2025-07-16 21:25:48'),
+(105, 27, 'Actualizó al usuario: administrador7', '2025-07-16 21:25:48'),
+(106, 27, 'Actualizó al usuario: administrador7', '2025-07-16 22:07:55'),
+(107, 27, 'Actualizó al usuario: administrador7', '2025-07-16 22:07:55'),
+(108, 27, 'login', '2025-07-17 17:56:23'),
+(109, 27, 'Actualizó al usuario: administrador7', '2025-07-17 17:56:36'),
+(110, 27, 'Actualizó al usuario: administrador7', '2025-07-17 17:56:36'),
+(111, 27, 'Actualizó al usuario: administrador2', '2025-07-17 18:31:44'),
+(112, 27, 'Actualizó al usuario: administrador2', '2025-07-17 18:31:44'),
+(113, 27, 'Actualizó al usuario: administrador7', '2025-07-17 18:32:04'),
+(114, 27, 'Actualizó al usuario: administrador7', '2025-07-17 18:32:04'),
+(115, 27, 'Eliminó al usuario: administrador7', '2025-07-17 18:32:43'),
+(116, 27, 'Actualizó el producto: producto5', '2025-07-17 18:33:01'),
+(117, 27, 'Actualizó al usuario: administrador4', '2025-07-17 18:55:49'),
+(118, 27, 'Actualizó al usuario: administrador4', '2025-07-17 18:55:49'),
+(119, 27, 'Actualizó al usuario: administrador5', '2025-07-17 19:02:04'),
+(120, 27, 'Actualizó al usuario: administrador5', '2025-07-17 19:02:04'),
+(121, 27, 'Actualizó al usuario: administrador2', '2025-07-17 21:02:13'),
+(122, 27, 'Actualizó al usuario: administrador2', '2025-07-17 21:02:13'),
+(123, 27, 'Creó al usuario: administrador6', '2025-07-17 21:02:52'),
+(124, 27, 'Actualizó al usuario: administrador6', '2025-07-17 21:02:59'),
+(125, 27, 'Actualizó al usuario: administrador6', '2025-07-17 21:02:59'),
+(126, 27, 'Actualizó al usuario: administrador5', '2025-07-17 21:56:07'),
+(127, 27, 'Eliminó al usuario: administrador6', '2025-07-17 22:13:58'),
+(128, 27, 'Actualizó al usuario: administrador5', '2025-07-17 22:14:08'),
+(129, 27, 'Creó al usuario: administrador6', '2025-07-17 22:14:30'),
+(130, 27, 'Eliminó el producto: producto5', '2025-07-17 22:15:00'),
+(131, 27, 'Actualizó el producto: producto5', '2025-07-17 22:15:07'),
+(132, 27, 'Creó al usuario: administrador7', '2025-07-18 12:34:47'),
+(133, 27, 'Actualizó al usuario: administrador77', '2025-07-18 12:34:57'),
+(134, 27, 'Eliminó al usuario: administrador77', '2025-07-18 12:35:03'),
+(135, 27, 'Creó producto: SARTENES T FAL', '2025-07-18 12:39:17'),
+(136, 27, 'Creó el producto: SARTENES T FAL', '2025-07-18 12:39:17'),
+(137, 27, 'Actualizó el producto: USUARIO', '2025-07-18 12:39:48'),
+(138, 27, 'Actualizó el producto: USUARIO', '2025-07-18 12:39:48'),
+(139, 27, 'Eliminó el producto: producto4', '2025-07-18 12:39:56'),
+(140, 27, 'Eliminó el producto: producto1', '2025-07-18 12:40:00'),
+(141, 27, 'Eliminó el producto: producto3', '2025-07-18 12:40:03'),
+(142, 27, 'Eliminó el producto: producto2', '2025-07-18 12:40:07'),
+(143, 27, 'Actualizó el producto: SARTENES T FAL', '2025-07-18 13:59:00'),
+(144, 27, 'Creó el producto: Sartenes t fal 2', '2025-07-18 14:23:44');
 
 --
 -- Índices para tablas volcadas
@@ -1050,7 +1107,7 @@ ALTER TABLE `levels_users`
 -- AUTO_INCREMENT de la tabla `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=726;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=728;
 
 --
 -- AUTO_INCREMENT de la tabla `subcategories`
@@ -1068,13 +1125,13 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT de la tabla `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
 -- Restricciones para tablas volcadas
