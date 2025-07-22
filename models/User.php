@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../config/config.php';
+//require_once __DIR__ . '/../config/config.php';
 
 class User {
 
@@ -41,7 +41,7 @@ class User {
         $stmt->bindParam(':email', $data['email']);
         $stmt->bindParam(':level_user', $data['level_user']);
         $stmt->bindParam(":img_url", $data['img_url']);
-          $stmt->bindParam(':user_id', $userID, PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $userID, PDO::PARAM_INT);
 
           return $stmt->execute();
      }

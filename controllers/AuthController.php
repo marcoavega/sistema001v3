@@ -60,11 +60,11 @@ class AuthController
                     'updated_at' => $user['updated_at'], // Última actualización del perfil
                     'img_url'    => $user['img_url'], // URL de la imagen de perfil del usuario
                     'description_level' => $user['description_level'] // Descripción del nivel de usuario
-                    
+
                 ];
 
                 // Registrar el login
-            Logger::logAction($user['user_id'], 'login');
+                Logger::logAction($user['user_id'], 'login');
 
                 $_SESSION['flash'] = "Bienvenido, " . htmlspecialchars($user['username']); // Mensaje de bienvenida seguro contra inyección de HTML
                 header("Location: " . BASE_URL . "dashboard"); // Redirige al usuario al panel principal después de iniciar sesión correctamente
@@ -82,34 +82,33 @@ class AuthController
 
     // **Método para cerrar sesión**
     public function logout()
-{
-    // Si el usuario está logueado, guarda el evento
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+    {
+        // Si el usuario está logueado, guarda el evento
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (isset($_SESSION['user']['user_id'])) {
+            Logger::logAction($_SESSION['user']['user_id'], 'logout');
+        }
+
+        // --- tu código existente para destruir la sesión ---
+        $_SESSION = [];
+
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(),
+                '',
+                time() - 42000,
+                $params["path"],
+                $params["domain"],
+                $params["secure"],
+                $params["httponly"]
+            );
+        }
+
+        session_destroy();
+        header("Location: " . BASE_URL . "auth/login/");
+        exit();
     }
-    if (isset($_SESSION['user']['user_id'])) {
-        Logger::logAction($_SESSION['user']['user_id'], 'logout');
-    }
-
-    // --- tu código existente para destruir la sesión ---
-    $_SESSION = [];
-
-    if (ini_get("session.use_cookies")) {
-        $params = session_get_cookie_params();
-        setcookie(
-            session_name(), '',
-            time() - 42000,
-            $params["path"],
-            $params["domain"],
-            $params["secure"],
-            $params["httponly"]
-        );
-    }
-
-    session_destroy();
-    header("Location: " . BASE_URL . "auth/login/");
-    exit();
-}
-
-    
 }

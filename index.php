@@ -16,11 +16,11 @@ $url = isset($_GET['url']) ? $_GET['url'] : 'login';
 $parts = explode('/', $url);
 
 // Si la primera parte de la URL es "auth", significa que es una acción de autenticación
-if ($parts[0] == 'auth'){
-    
+if ($parts[0] == 'auth') {
+
     // Importa el controlador de autenticación, el cual maneja el inicio de sesión, registro y cierre de sesión
     require_once 'controllers/AuthController.php';
-    
+
     // Crea una instancia del controlador de autenticación
     $auth = new AuthController();
 
@@ -37,7 +37,7 @@ if ($parts[0] == 'auth'){
         echo "<h1>Error: Acción no encontrada en AuthController.</h1>";
     }
 } else {
-    
+
     // Si la URL no está relacionada con autenticación, se usa RouteController para cargar la página correspondiente
     require_once 'controllers/RouteController.php';
 
@@ -50,4 +50,3 @@ if ($parts[0] == 'auth'){
 
 // Incluye el pie de página, donde pueden estar los scripts de cierre y otras configuraciones finales
 include __DIR__ . '/views/partials/footer.php';
-
