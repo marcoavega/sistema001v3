@@ -19,3 +19,17 @@
     /* Esto evita problemas con elementos que sobresalen del ancho de la ventana */
     overflow-x: hidden;
 }
+
+.style-first-div-login{
+    min-height: 100vh;
+}
+
+.style-third-div-login{
+    width: 100%;
+    max-width: 400px;
+}
+
+.img-login{
+    max-height: 100px;
+    object-fit: contain;
+}

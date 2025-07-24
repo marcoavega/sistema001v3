@@ -7,7 +7,7 @@ include __DIR__ . '/../partials/button-theme.php';
 ?>
 
 <!-- Contenedor principal que garantiza que el contenido ocupe toda la pantalla -->
-<div class="d-flex flex-column" style="min-height: 100vh;">
+<div class="d-flex flex-column style-first-div-login">
     <!-- 'd-flex flex-column' estructura el contenido en una dirección vertical.
          'min-height: 100vh' garantiza que el contenedor abarque toda la altura de la pantalla. -->
 
@@ -17,7 +17,7 @@ include __DIR__ . '/../partials/button-theme.php';
              'flex-grow-1' expande el contenido verticalmente para que ocupe el espacio disponible.
              'align-items-center justify-content-center' centra el formulario tanto vertical como horizontalmente. -->
 
-        <div class="card shadow-lg" style="width: 100%; max-width: 400px;">
+        <div class="card shadow-lg style-third-div-login">
             <!-- Se usa 'card' para estructurar el formulario con borde y sombra suave ('shadow-lg') para mejorar la apariencia.
                  'width: 100%' permite que el formulario sea flexible dentro del contenedor.
                  'max-width: 400px' evita que el formulario se extienda demasiado en pantallas grandes. -->
@@ -28,8 +28,7 @@ include __DIR__ . '/../partials/button-theme.php';
                 <!-- Imagen del logo de la empresa -->
                 <img src="<?php echo BASE_URL; ?>assets/images/logo/logo_empresa.png" 
                      alt="Logo de la Empresa" 
-                     class="img-fluid rounded-circle mb-3" 
-                     style="max-height: 100px; object-fit: contain;">
+                     class="img-fluid rounded-circle mb-3 img-login">
                 <!-- Se carga la imagen del logo con 'img-fluid' para asegurarse de que sea responsiva.
                      'rounded-circle' le da un aspecto circular para un diseño moderno.
                      'max-height: 100px' limita su tamaño para que no sobresalga demasiado.

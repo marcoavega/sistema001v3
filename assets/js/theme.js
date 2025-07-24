@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dark: BASE_URL + 'assets/tabulator/css/tabulator_site_dark.min.css'
   };
 
-  let theme = localStorage.getItem('theme') || 'light';
+  let theme = localStorage.getItem('theme') || 'dark';
   applyTheme(theme);
 
   btn.addEventListener('click', () => {

@@ -27,7 +27,7 @@
     <link id="tabulator-theme" rel="stylesheet" href="<?php echo BASE_URL; ?>assets/tabulator/css/tabulator.min.css">
 
 
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/general-style.css">
     <!-- Enlace a la hoja de estilos personalizada de la aplicación (style.css) -->
 
     <script>
