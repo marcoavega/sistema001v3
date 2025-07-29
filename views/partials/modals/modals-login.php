@@ -13,7 +13,7 @@
         <div class="modal-content">
             <!-- Contenedor del contenido del modal, incluyendo encabezado, cuerpo y pie de página. -->
 
-            <div class="modal-header bg-danger text-white">
+            <div class="modal-header bg-danger">
                 <!-- Sección de encabezado del modal.
                      'bg-danger' aplica un fondo rojo, indicando que el mensaje es un error.
                      'text-white' mantiene el texto en color blanco para mejor contraste. -->

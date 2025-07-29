@@ -165,7 +165,7 @@ require_once __DIR__ . '/../partials/layouts/lateral_menu_dashboard.php';
               </div>
 
              <!-- Buscador + Exportar -->
-<div class="card-body p-4">
+        <div class="card-body p-4">
               <div class="row g-3 mb-4">
                 <div class="col-md-6">
                   <div class="position-relative">
