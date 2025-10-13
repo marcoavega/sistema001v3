@@ -4,7 +4,9 @@ require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Database.php';
 require_once __DIR__ . '/../models/Logger.php';
 
-session_start(); // Asegura que haya acceso a $_SESSION
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+} // Asegura que haya acceso a $_SESSION
 
 
 
