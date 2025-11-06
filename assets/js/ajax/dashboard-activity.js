@@ -23,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
       background: linear-gradient(135deg,#f8f9fa,#e9ecef);
       border-bottom: 2px solid #dee2e6;
     }
-    .tabulator-row:hover { background-color: #f8f9fa !important; }
+   .tabulator-row:hover { background-color: rgba(255, 255, 255, 0.08) !important; }
+
 
     @media (max-width: 767px) {
       .tabulator::-webkit-scrollbar { height: 12px; }

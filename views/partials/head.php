@@ -23,12 +23,14 @@
     <!--<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/tabulator/css/tabulator_site_dark.min.css">
      Incluye los estilos de Tabulator, que se usan para la gestión y presentación de tablas dinámicas -->
 
-   <!-- Solo uno: el que cambia dinámicamente -->
+    <!-- Solo uno: el que cambia dinámicamente -->
     <link id="tabulator-theme" rel="stylesheet" href="<?php echo BASE_URL; ?>assets/tabulator/css/tabulator.min.css">
-
 
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/general-style.css">
     <!-- Enlace a la hoja de estilos personalizada de la aplicación (style.css) -->
+
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/navbar-style.css">
+    <!-- Estilos específicos para la barra de navegación -->
 
     <script>
         var BASE_URL = "<?php echo BASE_URL; ?>"; 
